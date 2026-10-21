@@ -65,12 +65,12 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .boton--suave{background:var(--papel);color:var(--tinta)}
 
 /* respuesta al pulsar en todo lo que se toca; el hover solo con ratón */
-.boton,.chip,.anadir,.pestanas a,.conmutador button,button.fila{transition:transform .16s var(--ease-out),background-color .2s ease,color .2s ease}
+.boton,.chip,.anadir,.pestanas a,.conmutador button,:is(button,label).fila{transition:transform .16s var(--ease-out),background-color .2s ease,color .2s ease}
 .boton:active,.chip:active,.anadir:active,.pestanas a:active,.conmutador button:active{transform:scale(.97)}
-button.fila:active{transform:scale(.99)}
+:is(button,label).fila:active{transform:scale(.99)}
 @media (hover:hover) and (pointer:fine){
   .pestanas a:not([aria-current]):hover,.conmutador button[aria-pressed="false"]:hover,.chip[aria-pressed="false"]:hover{color:var(--tinta)}
-  button.fila:hover{background:color-mix(in srgb,var(--papel) 60%,var(--hoja))}
+  :is(button,label).fila:hover{background:color-mix(in srgb,var(--papel) 60%,var(--hoja))}
   .anadir:hover,.boton--suave:hover{background:var(--suave)}
   .boton:not(.boton--suave):hover{background:color-mix(in srgb,var(--tinta) 85%,var(--hoja))}
 }
@@ -78,7 +78,7 @@ button.fila:active{transform:scale(.99)}
 /* filas: opciones de la propuesta y piezas del catálogo, sobre una hoja blanca */
 .lista{background:var(--hoja);border-radius:var(--radio);padding:.375rem 0;overflow:hidden}
 .fila{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;align-items:center;width:100%;padding:.875rem 1.25rem;text-align:left;background:none;border:0}
-button.fila{cursor:pointer}
+:is(button,label).fila{cursor:pointer}
 .fila b{display:block;font:400 var(--t1)/1.25 var(--f-display)}
 .fila .desc{display:block;color:var(--gris);margin-top:.15rem}
 .fila small{display:block;font-size:var(--t-1);color:var(--gris);margin-top:.2rem}
@@ -109,6 +109,14 @@ button.fila{cursor:pointer}
 .interruptor::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--hoja);transition:transform .2s var(--ease-out)}
 .fila[aria-checked="true"] .interruptor{background:var(--oro)}
 .fila[aria-checked="true"] .interruptor::after{transform:translateX(18px)}
+/* elegir web: un punto que se llena */
+label.fila{position:relative}
+.oculto{position:absolute;inset:0;margin:0;opacity:0;pointer-events:none}
+.punto{width:24px;height:24px;border-radius:50%;background:var(--pista);position:relative;flex:none;transition:background-color .2s ease}
+.punto::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--hoja);opacity:0;transform:scale(.5);transition:opacity .2s ease,transform .2s var(--ease-out)}
+.fila:has(input:checked) .punto{background:var(--oro)}
+.fila:has(input:checked) .punto::after{opacity:1;transform:none}
+.fila:has(input:focus-visible){outline:2px solid var(--tinta);outline-offset:-2px}
 .promesas{margin-top:3rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem}
 .promesa h3{font-size:var(--t1);margin-bottom:.25rem}
 .promesa p{color:var(--gris)}
@@ -126,6 +134,7 @@ button.fila{cursor:pointer}
 .elegido li{display:flex;gap:.6rem}
 .elegido li::before{content:"";flex:none;width:5px;height:5px;border-radius:50%;background:var(--gris);margin-top:.65rem}
 .plazo b{font-weight:600}
+.resumen__acciones{display:grid;gap:.5rem}
 .peque{font-size:var(--t-1);color:var(--gris)}
 .barra-movil{display:none}
 
@@ -164,11 +173,40 @@ button.fila{cursor:pointer}
   .barra-movil a{color:#EFE8E1;font-size:var(--t-1);font-weight:500}
   #propuesta{padding-bottom:7rem}
 }
+/* resumen en PDF: hoja A4 tipo albarán, siempre en claro; es un documento con tabla y firmas, así que lleva sus líneas */
+.albaran{font:400 10pt/1.45 var(--f-texto);color:#221C18;background:#fff}
+.alb-cab{display:flex;justify-content:space-between;align-items:flex-start;gap:12mm;padding-bottom:6mm;border-bottom:1.5pt solid #221C18} /* taste-skill-ignore: cabecera de documento */
+.alb-cab p{color:#6B645F}
+.alb-cab .alb-marca{font-weight:600;letter-spacing:.12em;color:#221C18}
+.alb-doc{text-align:right}
+.alb-doc h1{font:400 22pt/1.1 var(--f-display);color:#221C18;margin-bottom:1.5mm}
+.alb-cliente{margin:7mm 0 8mm;font:400 14pt/1.3 var(--f-display)}
+.alb-cliente span{display:block;font:400 8.5pt/1.4 var(--f-texto);color:#6B645F;margin-bottom:.5mm}
+.alb-tabla{width:100%;border-collapse:collapse}
+.alb-tabla th{font-weight:500;font-size:8.5pt;color:#6B645F;text-align:right;padding:0 0 2mm 3mm;border-bottom:.75pt solid #221C18;vertical-align:bottom} /* taste-skill-ignore: tabla */
+.alb-tabla td{padding:2.6mm 0 2.6mm 3mm;border-bottom:.5pt solid #D6D2CC;text-align:right;white-space:nowrap} /* taste-skill-ignore: tabla */
+.alb-tabla th:first-child,.alb-tabla td:first-child{text-align:left;padding-left:0;white-space:normal}
+.alb-totales{width:82mm;margin:6mm 0 0 auto;display:grid;grid-template-columns:1fr auto;gap:1.8mm 6mm;align-items:baseline}
+.alb-totales dt{color:#6B645F}
+.alb-totales dd{margin:0;text-align:right}
+.alb-totales .grande{font:400 18pt/1 var(--f-display);color:#8A6A3E}
+.alb-plazo{margin-top:9mm}
+.alb-cond{margin-top:2mm;max-width:150mm;font-size:8.5pt;color:#6B645F}
+.alb-firmas{display:grid;grid-template-columns:1fr 1fr;gap:16mm;margin-top:24mm;break-inside:avoid}
+.alb-firmas p{padding-top:2mm;border-top:.75pt solid #221C18;font-size:8.5pt;color:#6B645F} /* taste-skill-ignore: línea de firma */
+@page{size:A4;margin:16mm}
+@media print{
+  html,body{background:#fff}
+  body::before{display:none}
+  body>*:not(#albaran){display:none!important}
+  #albaran{display:block!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
 /* movimiento reducido: se quedan los fundidos, se quita el desplazamiento */
 @media (prefers-reduced-motion:reduce){
   *{transition-property:opacity!important}
   @starting-style{.bloque{transform:none}}
-  .boton:active,.chip:active,.anadir:active,.pestanas a:active,.conmutador button:active,button.fila:active{transform:none}
+  .boton:active,.chip:active,.anadir:active,.pestanas a:active,.conmutador button:active,:is(button,label).fila:active{transform:none}
 }
 </style>
 </head>
@@ -220,10 +258,12 @@ button.fila{cursor:pointer}
       <div class="prop">
         <div>
           <div class="grupo">
+            <h2>Tu web</h2>
+            <div class="lista" id="op-base" role="radiogroup" aria-label="Tu web"></div>
+          </div>
+          <div class="grupo">
             <h2>Lo principal</h2>
-            <div class="lista" id="op-grandes">
-              <div class="fila"><div><b>Tu web</b><span class="desc">Tu carta, tus fotos y tu equipo, con reserva en Treatwell o por WhatsApp.</span></div><span class="estado">Incluida</span></div>
-            </div>
+            <div class="lista" id="op-grandes"></div>
           </div>
           <div class="grupo">
             <h2>Extras</h2>
@@ -248,7 +288,10 @@ button.fila{cursor:pointer}
           <p class="plazo" id="s-plazo"></p>
           <p class="peque" id="s-total"></p>
           <p class="peque">Con un 25 % de descuento por ser nuestro primer centro, a cambio de enseñar tu web. Sin IVA. Válido hasta el 15 de noviembre de 2026.</p>
-          <button class="boton boton--suave" type="button" id="reiniciar">Volver a solo la web</button>
+          <div class="resumen__acciones">
+            <button class="boton" type="button" id="exportar">Guardar resumen en PDF</button>
+            <button class="boton boton--suave" type="button" id="reiniciar">Quitar los extras</button>
+          </div>
         </aside>
       </div>
     </div>
@@ -280,6 +323,23 @@ button.fila{cursor:pointer}
 <footer class="pie">
   <div class="ancho"><span>Propuesta NOV-2026-003, 21 de octubre de 2026</span><span>Félix Ortuño, NOVORA</span></div>
 </footer>
+
+<!-- Resumen en PDF: hoja tipo albarán con lo elegido. Solo se ve al imprimir o guardar como PDF. -->
+<section class="albaran" id="albaran" hidden>
+  <header class="alb-cab">
+    <div><p class="alb-marca">NOVORA</p><p>Félix Ortuño</p></div>
+    <div class="alb-doc"><h1>Resumen de propuesta</h1><p>Nº NOV-2026-003</p><p id="alb-fecha"></p></div>
+  </header>
+  <p class="alb-cliente"><span>Cliente</span>África MG, Castellón de la Plana</p>
+  <table class="alb-tabla num">
+    <thead><tr><th scope="col">Concepto</th><th scope="col">Entrada</th><th scope="col">12 cuotas de</th><th scope="col">Mantenimiento al mes</th><th scope="col">Puesta en marcha</th></tr></thead>
+    <tbody id="alb-lineas"></tbody>
+  </table>
+  <dl class="alb-totales num" id="alb-totales"></dl>
+  <p class="alb-plazo" id="alb-plazo"></p>
+  <p class="alb-cond">La puesta en marcha se paga con la entrada y 12 cuotas sin intereses, que empiezan cuando cada parte ya funciona. Incluye un 25 % de descuento por ser nuestro primer centro, a cambio de enseñar tu web. Precios sin IVA. Válido hasta el 15 de noviembre de 2026.</p>
+  <div class="alb-firmas"><p>Conforme, África MG</p><p>Conforme, NOVORA</p></div>
+</section>
 
 <script>
 (function(){
@@ -319,8 +379,14 @@ button.fila{cursor:pointer}
   if(window.ResizeObserver) new ResizeObserver(encajar).observe(escala); else addEventListener("resize",encajar);
 
   /* ---------- 2 · Propuesta ----------
-     precio = puesta en marcha (empezar + 12 cuotas); mant = cada mes; semanas = plazo de construcción */
-  var BASE={nombre:"Tu web",precio:690,empezar:150,cuota:45,mant:25,semanas:6};
+     precio = puesta en marcha (empezar + 12 cuotas); mant = cada mes; semanas = plazo de construcción.
+     BASES: se elige una, la web nueva o (lo mínimo) retocar la que tiene del Kit Digital. */
+  var BASES={
+    nueva:{nombre:"Web nueva",desc:"La de «Tu web»: tu carta, tus fotos y tu equipo, con reserva en Treatwell o por WhatsApp.",precio:690,empezar:150,cuota:45,mant:25,semanas:6,listo:"Web lista en unas <b>6 semanas</b>"},
+    retoque:{nombre:"Retoque de tu web actual",desc:"Ponemos al día la web que ya tienes del Kit Digital: textos, precios y fotos.",nota:"La opción más económica",precio:290,empezar:50,cuota:20,mant:10,semanas:2,listo:"Tu web, retocada en unas <b>2 semanas</b>"}
+  };
+  var base="nueva";
+  try{var gb=localStorage.getItem("amg-propuesta-base");if(BASES[gb])base=gb}catch(e){}
   var OPCIONES=[
     {id:"reservas",corto:"las reservas online",grupo:"grandes",nombre:"Reservas online",desc:"A cualquier hora, con recordatorio por WhatsApp.",precio:990,empezar:210,cuota:65,mant:35,semanas:9},
     {id:"whatsapp",corto:"el WhatsApp que reserva",grupo:"grandes",nombre:"WhatsApp que reserva",desc:"Contesta al momento y reserva, también de noche.",precio:490,empezar:130,cuota:30,mant:30,semanas:4,req:"reservas"},
@@ -345,24 +411,30 @@ button.fila{cursor:pointer}
     var req=o.req?'<small>Necesita '+POR_ID[o.req].corto+'</small>':"";
     return '<button type="button" class="fila" role="switch" aria-checked="false" data-id="'+o.id+'" id="op-'+o.id+'"><div><b>'+o.nombre+'</b><span class="desc">'+o.desc+'</span>'+req+'</div><span class="interruptor" aria-hidden="true"></span></button>';
   }
+  $("op-base").innerHTML=Object.keys(BASES).map(function(k){var b=BASES[k];
+    return '<label class="fila"><input class="oculto" type="radio" name="base" value="'+k+'"><div><b>'+b.nombre+'</b><span class="desc">'+b.desc+'</span>'+(b.nota?'<small>'+b.nota+'</small>':'')+'</div><span class="punto" aria-hidden="true"></span></label>';
+  }).join("");
+  $("op-base").addEventListener("change",function(e){elegirBase(e.target.value)});
+  function elegirBase(k){base=k;try{localStorage.setItem("amg-propuesta-base",k)}catch(e){}pintar()}
   $("op-grandes").insertAdjacentHTML("beforeend",OPCIONES.filter(function(o){return o.grupo==="grandes"}).map(opcionHTML).join(""));
   $("op-detalles").innerHTML=OPCIONES.filter(function(o){return o.grupo==="detalles"}).map(opcionHTML).join("");
 
+  var ultimo;
   function pintar(){
-    var lista=[BASE].concat(OPCIONES.filter(function(o){return elegidas[o.id]}));
+    var B=BASES[base], lista=[B].concat(OPCIONES.filter(function(o){return elegidas[o.id]}));
     var t={precio:0,empezar:0,mes:0,despues:0,semanas:0};
     lista.forEach(function(o){t.precio+=o.precio;t.empezar+=o.empezar;t.mes+=o.cuota+o.mant;t.despues+=o.mant;t.semanas+=o.semanas});
+    ultimo={lista:lista,t:t};
     $("s-empezar").textContent=eur(t.empezar);
     $("s-mes").textContent=eur(t.mes);
     $("s-despues").textContent=eur(t.despues);
     $("m-empezar").textContent=eur(t.empezar);
     $("m-mes").textContent=eur(t.mes);
     $("s-lista").innerHTML=lista.map(function(o){return "<li>"+o.nombre+"</li>"}).join("");
-    $("s-plazo").innerHTML=lista.length===1
-      ? "Web lista en unas <b>6 semanas</b>. Si firmas a primeros de noviembre, antes de Navidad."
-      : "Web lista en unas <b>6 semanas</b>, y todo en unas <b>"+t.semanas+" semanas</b>.";
+    $("s-plazo").innerHTML=B.listo+(lista.length>1?", y todo en unas <b>"+t.semanas+" semanas</b>.":base==="nueva"?". Si firmas a primeros de noviembre, antes de Navidad.":".");
     $("s-total").textContent="Puesta en marcha: "+eur(t.precio)+", en la entrada y 12 cuotas sin intereses. Después solo pagas el mantenimiento.";
     OPCIONES.forEach(function(o){$("op-"+o.id).setAttribute("aria-checked",!!elegidas[o.id])});
+    document.querySelectorAll("#op-base input").forEach(function(i){i.checked=i.value===base});
     pintarCatalogo();
     try{localStorage.setItem("amg-propuesta",JSON.stringify(elegidas))}catch(e){}
   }
@@ -381,14 +453,32 @@ button.fila{cursor:pointer}
   document.addEventListener("click",function(e){
     var b=e.target.closest(".fila[data-id]"); if(b){cambiar(b.dataset.id,b.getAttribute("aria-checked")!=="true");return}
     var a=e.target.closest(".anadir[data-id]"); if(a){cambiar(a.dataset.id,true);ir("propuesta");return}
+    var eb=e.target.closest(".anadir[data-base]"); if(eb){elegirBase(eb.dataset.base);ir("propuesta");return}
   });
   $("reiniciar").addEventListener("click",function(){elegidas={};$("aviso").hidden=true;pintar()});
+  /* ---------- Resumen en PDF: el albarán con lo elegido; el navegador lo imprime o lo guarda como PDF ---------- */
+  function guion(n){return n?eur(n):"—"}
+  function pintarAlbaran(){
+    var t=ultimo.t;
+    $("alb-fecha").textContent=new Date().toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"});
+    $("alb-lineas").innerHTML=ultimo.lista.map(function(o){return "<tr><td>"+o.nombre+"</td><td>"+guion(o.empezar)+"</td><td>"+guion(o.cuota)+"</td><td>"+guion(o.mant)+"</td><td>"+guion(o.precio)+"</td></tr>"}).join("");
+    $("alb-totales").innerHTML='<dt>Para empezar</dt><dd class="grande">'+eur(t.empezar)+"</dd><dt>Cada mes, el primer año</dt><dd>"+eur(t.mes)+"</dd><dt>Cada mes, después</dt><dd>"+eur(t.despues)+"</dd><dt>Puesta en marcha</dt><dd>"+eur(t.precio)+"</dd>";
+    $("alb-plazo").textContent=$("s-plazo").textContent;
+  }
+  addEventListener("beforeprint",pintarAlbaran);
+  $("exportar").addEventListener("click",function(){
+    var titulo=document.title;
+    document.title="Propuesta NOV-2026-003 África MG";   // nombre del PDF al guardarlo
+    addEventListener("afterprint",function vuelve(){document.title=titulo;removeEventListener("afterprint",vuelve)});
+    pintarAlbaran(); window.print();
+  });
   $("m-ver").addEventListener("click",function(e){e.preventDefault();$("resumen").scrollIntoView({behavior:"smooth"})});
 
   /* ---------- 3 · Catálogo (sin precios) ---------- */
   var CATALOGO=[
     {grupo:"Que te encuentren",items:[
-      {n:"Tu web con tu carta",d:"Tratamientos, precios y fotos, siempre al día.",en:"base"},
+      {n:"Tu web nueva",d:"Tratamientos, precios y fotos, siempre al día.",en:"base:nueva"},
+      {n:"Retocar tu web actual",d:"Lo mínimo: ponemos al día la del Kit Digital.",en:"base:retoque"},
       {n:"Tu ficha de Google al día",d:"Para salir arriba cuando buscan en Castellón.",en:"google"},
       {n:"Opiniones en Google",d:"Se piden solas después de cada cita.",en:"resenas"}
     ]},
@@ -425,7 +515,7 @@ button.fila{cursor:pointer}
     $("catalogo-lista").innerHTML=CATALOGO.filter(function(g){return !filtro||g.grupo===filtro}).map(function(g){
       return '<div class="cat-grupo"><h2>'+g.grupo+'</h2><div class="lista">'+g.items.map(function(it){
         var pie;
-        if(it.en==="base") pie='<span class="estado">Incluida</span>';
+        if(it.en&&it.en.indexOf("base:")===0) pie=base===it.en.slice(5)?'<span class="estado estado--si">En tu propuesta</span>':'<button type="button" class="anadir" data-base="'+it.en.slice(5)+'" aria-label="Elegir '+it.n+'">Elegir</button>';
         else if(!it.en) pie='<span class="estado">Con tu gestoría</span>';
         else if(elegidas[it.en]) pie='<span class="estado estado--si">En tu propuesta</span>';
         else pie='<button type="button" class="anadir" data-id="'+it.en+'" aria-label="Añadir '+it.n+' a tu propuesta">Añadir</button>';

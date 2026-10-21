@@ -29,11 +29,12 @@ Todo se sirve con `X-Robots-Tag: noindex`, así que Google no indexa la propuest
 
 ## Dónde se cambia cada cosa (`index.html`)
 
-- **Precios del configurador**: en el script, `BASE` (la web) y `OPCIONES`. Cada pieza tiene `precio` (puesta en marcha), `empezar` (entrada), `cuota` (12 cuotas), `mant` (mantenimiento mensual) y `semanas`. Regla: `empezar + 12 × cuota = precio`.
+- **Precios del configurador**: en el script, `BASES` (se elige una: `nueva`, la web nueva, o `retoque`, lo mínimo, retocar la web actual del Kit Digital) y `OPCIONES`. Cada pieza tiene `precio` (puesta en marcha), `empezar` (entrada), `cuota` (12 cuotas), `mant` (mantenimiento mensual) y `semanas`. Regla: `empezar + 12 × cuota = precio`.
 - **Dependencias**: `req` en cada opción (por ejemplo, el WhatsApp necesita las reservas).
 - **Catálogo (sin precios)**: `CATALOGO`. El campo `en` enlaza cada tarjeta con su opción del configurador.
 - **Colores y tipografía**: variables del bloque `:root` al principio del `<style>`.
 - **Textos de cabecera, validez y número de propuesta**: directamente en el HTML.
+- **Resumen en PDF (tipo albarán)**: botón «Guardar resumen en PDF» en «Lo que pagas». La hoja es la sección `#albaran` al final del HTML: número, cliente y condiciones se cambian ahí; las líneas, los totales, el plazo y la fecha se rellenan solos con lo elegido. Sale al imprimir o al guardar como PDF desde el navegador.
 
 ## Precios de la carta (`demo/index.html`)
 
@@ -44,3 +45,4 @@ Cada precio está repetido en: la línea de la carta (`data-precio` y el texto),
 - Revisar precios de la carta en `demo/index.html` (no cuadran con Treatwell: microblading 200 € frente a 150 €, manicura 11 € frente a 22 €).
 - Cambiar la dirección por la del local nuevo cuando se sepa.
 - Validar los precios de las piezas pequeñas del configurador antes de enseñarlo.
+- Confirmar el precio del retoque de la web actual (provisional: 290 € = 50 € + 12 × 20 €, 10 €/mes, 2 semanas).
