@@ -10,7 +10,8 @@ africamg/
 └── África MG Castellón/
     ├── index.html             ← la propuesta (pestañas, configurador de precio y catálogo)
     ├── demo-reservas.html     ← demo de reservas, WhatsApp con IA y panel (viene de la v21)
-    ├── assets/                ← fotos (img/, con cabina.jpg para compartir), vídeo y recorrido
+    ├── assets/                ← fotos (img/, con cabina.jpg para compartir), vídeo y recorrido;
+    │                            logo de NOVORA en img/novora.svg (vector), novora-logo.png (1180 px) y novora-180.png (icono)
     └── demo/
         └── index.html         ← la web de África (vista previa dentro de la propuesta); usa ../assets/
 ```
