@@ -4,163 +4,179 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Propuesta África MG</title>
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Hanken+Grotesk:wght@400;500;600&display=swap">
 <style>
-/* Tres bloques en pestañas (Tu web · Tu propuesta · Catálogo), uno a la vez, mucho aire.
-   Colores de la marca de África: papel frío, tinta cálida, dorado del MG solo para lo importante. */
+/* Tres pestañas (Tu web, Tu propuesta, Catálogo), una a la vez.
+   Colores y letras de la marca de África: papel frío, tinta cálida, Bodoni para títulos y cifras.
+   Las superficies se separan por tono, sin líneas ni sombras. El dorado solo marca lo que eliges y lo que pagas. */
 :root{
-  --fondo:#F6F6F4;
+  --papel:#F3F3F0;
   --hoja:#FFFFFF;
   --tinta:#221C18;
-  --gris:#6A635E;
-  --linea:#E3E2DE;
-  --oro:#A9834F;
-  --oro-texto:#7A5C33;
-  --oro-suave:#F3ECE1;
+  --gris:#6B645F;
+  --suave:#E8E6E2;      /* controles en reposo */
+  --pista:#D6D2CC;      /* interruptor apagado */
+  --oro:#8A6A3E;
+  --oro-fondo:#F4EEE4;
   --marco:#1F1712;
   --f-display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
   --f-texto:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  /* cinco tamaños: 14, 16, 21, 28 y 34 a 44 px */
+  --t-1:.875rem; --t0:1rem; --t1:1.3125rem; --t2:1.75rem; --t3:clamp(2.125rem,4vw,2.75rem);
+  --radio:14px;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fondo:#15110E;--hoja:#1E1915;--tinta:#EFE8E1;--gris:#B0A59A;--linea:#342B25;--oro:#C9A66E;--oro-texto:#D8B983;--oro-suave:#2C241C;--marco:#0B0806;color-scheme:dark}}
-:root[data-theme="dark"]{--fondo:#15110E;--hoja:#1E1915;--tinta:#EFE8E1;--gris:#B0A59A;--linea:#342B25;--oro:#C9A66E;--oro-texto:#D8B983;--oro-suave:#2C241C;--marco:#0B0806;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--papel:#15110E;--hoja:#1E1915;--tinta:#EFE8E1;--gris:#ADA298;--suave:#2E2620;--pista:#3A3029;--oro:#D2B07A;--oro-fondo:#2C241C;--marco:#0B0806;color-scheme:dark}}
+:root[data-theme="dark"]{--papel:#15110E;--hoja:#1E1915;--tinta:#EFE8E1;--gris:#ADA298;--suave:#2E2620;--pista:#3A3029;--oro:#D2B07A;--oro-fondo:#2C241C;--marco:#0B0806;color-scheme:dark}
 
 *,*::before,*::after{box-sizing:border-box}
-body{background:var(--fondo);color:var(--tinta);font:400 1.0625rem/1.6 var(--f-texto);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+[hidden]{display:none!important}
+html{accent-color:var(--oro);-webkit-tap-highlight-color:transparent}
+::selection{background:color-mix(in srgb,var(--oro) 28%,transparent);color:var(--tinta)}
+body{margin:0;background:var(--papel);color:var(--tinta);font:400 var(--t0)/1.55 var(--f-texto);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.1;text-wrap:balance}
 p{margin:0}
 a{color:inherit}
 button{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--oro);outline-offset:3px}
-.num{font-variant-numeric:tabular-nums lining-nums}
-.ancho{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--tinta);outline-offset:3px}
+.num{font-variant-numeric:lining-nums tabular-nums}
+.ancho{max-width:1120px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
 
-/* cabecera con las tres pestañas */
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--fondo)}
-.cabecera{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--fondo) 94%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
+/* cabecera blanca sobre el papel, con las tres pestañas */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--hoja)}
+.cabecera{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--hoja)}
 .cabecera .ancho{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:64px}
-.marca{font:600 .75rem/1 var(--f-texto);letter-spacing:.22em;text-transform:uppercase;white-space:nowrap}
-.marca span{display:block;font:400 .8125rem/1.2 var(--f-texto);letter-spacing:0;text-transform:none;color:var(--gris);margin-top:.3rem}
-.pestanas{display:flex;gap:4px;background:var(--hoja);border:1px solid var(--linea);border-radius:999px;padding:4px}
-.pestanas a{text-decoration:none;font-size:.9375rem;font-weight:500;padding:.6rem 1.15rem;border-radius:999px;color:var(--gris);white-space:nowrap}
-.pestanas a:hover{color:var(--tinta)}
-.pestanas a[aria-current="page"]{background:var(--tinta);color:var(--fondo)}
+.marca{font-size:var(--t-1);color:var(--gris);white-space:nowrap}
+.marca b{font-weight:600;letter-spacing:.12em;color:var(--tinta);margin-right:.4rem}
+.pestanas{display:flex;gap:4px;background:var(--papel);border-radius:999px;padding:4px}
+.pestanas a{text-decoration:none;font-size:var(--t0);font-weight:500;line-height:1;padding:.7rem 1.1rem;border-radius:999px;color:var(--gris);white-space:nowrap}
+.pestanas a[aria-current="page"]{background:var(--tinta);color:var(--hoja)}
 
-/* bloques */
-.bloque{padding-block:clamp(2.5rem,6vw,4.5rem) clamp(4rem,8vw,6rem)}
-.bloque[hidden]{display:none}
-.cab{max-width:680px;margin-bottom:clamp(2rem,4vw,3rem)}
-.cab h1{font-size:clamp(2.2rem,4.6vw,3.4rem);letter-spacing:-.02em}
-.cab p{color:var(--gris);font-size:1.125rem;margin-top:.9rem}
+/* bloques: al cambiar de pestaña, la nueva entra con un fundido corto (el único momento animado) */
+.bloque{padding-block:clamp(2.5rem,6vw,4.5rem) clamp(4rem,8vw,6rem);transition:opacity .24s var(--ease-out),transform .24s var(--ease-out)}
+@starting-style{.bloque{opacity:0;transform:translateY(8px)}}
+.cab{max-width:36rem;margin-bottom:clamp(1.75rem,4vw,2.5rem)}
+.cab h1{font-size:var(--t3);letter-spacing:-.02em}
+.cab p{margin-top:.75rem;font-size:var(--t1);line-height:1.4}
+.boton{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:.7rem 1.3rem;border:0;background:var(--tinta);color:var(--hoja);font-size:var(--t0);font-weight:500;border-radius:999px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.boton--suave{background:var(--papel);color:var(--tinta)}
+
+/* respuesta al pulsar en todo lo que se toca; el hover solo con ratón */
+.boton,.chip,.anadir,.pestanas a,.conmutador button,button.fila{transition:transform .16s var(--ease-out),background-color .2s ease,color .2s ease}
+.boton:active,.chip:active,.anadir:active,.pestanas a:active,.conmutador button:active{transform:scale(.97)}
+button.fila:active{transform:scale(.99)}
+@media (hover:hover) and (pointer:fine){
+  .pestanas a:not([aria-current]):hover,.conmutador button[aria-pressed="false"]:hover,.chip[aria-pressed="false"]:hover{color:var(--tinta)}
+  button.fila:hover{background:color-mix(in srgb,var(--papel) 60%,var(--hoja))}
+  .anadir:hover,.boton--suave:hover{background:var(--suave)}
+  .boton:not(.boton--suave):hover{background:color-mix(in srgb,var(--tinta) 85%,var(--hoja))}
+}
+
+/* filas: opciones de la propuesta y piezas del catálogo, sobre una hoja blanca */
+.lista{background:var(--hoja);border-radius:var(--radio);padding:.375rem 0;overflow:hidden}
+.fila{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;align-items:center;width:100%;padding:.875rem 1.25rem;text-align:left;background:none;border:0}
+button.fila{cursor:pointer}
+.fila b{display:block;font:400 var(--t1)/1.25 var(--f-display)}
+.fila .desc{display:block;color:var(--gris);margin-top:.15rem}
+.fila small{display:block;font-size:var(--t-1);color:var(--gris);margin-top:.2rem}
+.estado{font-size:var(--t-1);color:var(--gris);white-space:nowrap}
+.estado--si{color:var(--oro);font-weight:600}
 
 /* 1 · la web */
-.web__barra{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem}
-.conmutador{display:inline-flex;border:1px solid var(--linea);border-radius:999px;padding:3px;gap:3px;background:var(--hoja)}
-.conmutador button{border:0;background:transparent;font-size:.875rem;font-weight:500;color:var(--gris);padding:.5rem 1rem;border-radius:999px;cursor:pointer}
-.conmutador button[aria-pressed="true"]{background:var(--tinta);color:var(--fondo)}
-.enlace{font-size:.9375rem;font-weight:500;text-decoration:underline;text-underline-offset:.3em;text-decoration-color:var(--oro)}
+.web__barra{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.conmutador{display:inline-flex;border-radius:999px;padding:4px;gap:4px;background:var(--hoja)}
+.conmutador button{border:0;background:transparent;font-size:var(--t-1);font-weight:500;line-height:1;color:var(--gris);padding:.65rem 1rem;border-radius:999px;cursor:pointer}
+.conmutador button[aria-pressed="true"]{background:var(--tinta);color:var(--hoja)}
+.enlace{font-weight:500;text-decoration:underline;text-underline-offset:.3em;text-decoration-thickness:1px;text-decoration-color:var(--gris)}
+.enlace:hover{text-decoration-color:var(--tinta)}
 .escala{max-width:100%;overflow:hidden}
 .escenario{display:flex;justify-content:center}
-.dispositivo{background:var(--marco);padding:10px;border-radius:36px;box-shadow:0 40px 80px -45px rgba(31,23,18,.6);transform-origin:top center;flex:none}
+.dispositivo{background:var(--marco);padding:10px;border-radius:36px;transform-origin:top center;flex:none}
 .dispositivo.ordenador{border-radius:14px;padding:8px}
 .pantalla{overflow:hidden;border-radius:27px;background:#fff}
 .dispositivo.ordenador .pantalla{border-radius:7px}
 .dispositivo iframe{display:block;border:0;background:#fff}
-.web__nota{color:var(--gris);font-size:.9375rem;text-align:center;margin-top:1.4rem;max-width:62ch;margin-inline:auto}
+.web__nota{color:var(--gris);font-size:var(--t-1);text-align:center;max-width:60ch;margin:1.25rem auto 0}
 
 /* 2 · la propuesta */
-.prop{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:clamp(1.5rem,4vw,3rem);align-items:start}
+.prop{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:clamp(1.5rem,4vw,3rem);align-items:start}
 .grupo + .grupo{margin-top:2.5rem}
-.grupo__tit{font:600 .75rem/1.3 var(--f-texto);letter-spacing:.14em;text-transform:uppercase;color:var(--gris);margin-bottom:.8rem}
-.opciones{display:grid;gap:10px}
-.opcion{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;align-items:center;width:100%;text-align:left;background:var(--hoja);border:1px solid var(--linea);border-radius:14px;padding:1.1rem 1.2rem;cursor:pointer;transition:border-color .15s,box-shadow .15s}
-.opcion:hover{border-color:color-mix(in srgb,var(--oro) 60%,var(--linea))}
-.opcion[aria-checked="true"]{border-color:var(--oro);box-shadow:0 0 0 1px var(--oro)}
-.opcion b{display:block;font-family:var(--f-display);font-weight:400;font-size:1.3rem;line-height:1.2}
-.opcion span.desc{display:block;font-size:.9375rem;color:var(--gris);margin-top:.3rem}
-.opcion small{display:block;font-size:.8125rem;color:var(--oro-texto);margin-top:.35rem}
-.opcion--fija{cursor:default;background:var(--oro-suave);border-color:transparent}
-.opcion--fija:hover{border-color:transparent}
-.interruptor{width:46px;height:28px;border-radius:999px;background:var(--linea);position:relative;flex:none;transition:background .15s}
-.interruptor::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--hoja);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
-.opcion[aria-checked="true"] .interruptor{background:var(--oro-texto)}
-.opcion[aria-checked="true"] .interruptor::after{transform:translateX(18px)}
-.incluida{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--oro-texto);white-space:nowrap}
-.aviso{font-size:.875rem;color:var(--oro-texto);background:var(--oro-suave);border-radius:10px;padding:.7rem .9rem}
+.grupo h2{font-size:var(--t2);margin-bottom:.875rem}
+.interruptor{width:46px;height:28px;border-radius:999px;background:var(--pista);position:relative;flex:none;transition:background-color .2s ease}
+.interruptor::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--hoja);transition:transform .2s var(--ease-out)}
+.fila[aria-checked="true"] .interruptor{background:var(--oro)}
+.fila[aria-checked="true"] .interruptor::after{transform:translateX(18px)}
+.promesas{margin-top:3rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem}
+.promesa h3{font-size:var(--t1);margin-bottom:.25rem}
+.promesa p{color:var(--gris)}
 
-.resumen{position:sticky;top:calc(env(safe-area-inset-top,0px) + 88px);background:var(--hoja);border:1px solid var(--linea);border-radius:18px;padding:1.5rem;display:grid;gap:1.2rem}
-.resumen h2{font-size:1.6rem}
-.cifras{display:grid;gap:0;border-top:1px solid var(--linea)}
-.cifra{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--linea)}
-.cifra span{font-size:.9375rem;color:var(--gris)}
-.cifra b{font-family:var(--f-display);font-weight:400;font-size:1.7rem;white-space:nowrap}
-.cifra--grande b{font-size:2.6rem;color:var(--oro-texto)}
-.elegido{list-style:none;margin:0;padding:0;display:grid;gap:.35rem;font-size:.9375rem}
+.resumen{position:sticky;top:calc(env(safe-area-inset-top,0px) + 88px);background:var(--hoja);border-radius:var(--radio);padding:1.5rem;display:grid;gap:1.25rem}
+.resumen h2{font-size:var(--t2)}
+.cifras{display:grid;gap:.875rem}
+.cifra{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.cifra span{color:var(--gris)}
+.cifra b{font:400 var(--t2)/1 var(--f-display);white-space:nowrap}
+.cifra--grande{padding-bottom:.375rem}
+.cifra--grande b{font-size:var(--t3);color:var(--oro)}
+.aviso{background:var(--oro-fondo);border-radius:10px;padding:.65rem .85rem}
+.elegido{list-style:none;margin:0;padding:0;display:grid;gap:.3rem}
 .elegido li{display:flex;gap:.6rem}
-.elegido li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--oro);margin-top:.6rem}
-.plazo{font-size:.9375rem;background:var(--fondo);border-radius:10px;padding:.8rem 1rem}
+.elegido li::before{content:"";flex:none;width:5px;height:5px;border-radius:50%;background:var(--gris);margin-top:.65rem}
 .plazo b{font-weight:600}
-.peque{font-size:.8125rem;color:var(--gris)}
-.boton{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:.7rem 1.3rem;border:1px solid var(--tinta);background:var(--tinta);color:var(--fondo);font-size:.9375rem;font-weight:500;border-radius:999px;cursor:pointer;text-decoration:none}
-.boton--suave{background:transparent;color:var(--tinta);border-color:var(--linea)}
-.promesas{margin-top:3rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.promesa{background:var(--hoja);border:1px solid var(--linea);border-radius:14px;padding:1.2rem}
-.promesa h3{font-size:1.15rem;margin-bottom:.35rem}
-.promesa p{font-size:.9375rem;color:var(--gris)}
+.peque{font-size:var(--t-1);color:var(--gris)}
 .barra-movil{display:none}
 
 /* 3 · catálogo */
-.filtros{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.8rem}
-.chip{border:1px solid var(--linea);background:var(--hoja);border-radius:999px;padding:.5rem .95rem;font-size:.875rem;font-weight:500;cursor:pointer;color:var(--gris)}
-.chip[aria-pressed="true"]{background:var(--tinta);border-color:var(--tinta);color:var(--fondo)}
-.cat-grupo + .cat-grupo{margin-top:2.6rem}
-.cat-grupo h2{font-size:1.6rem;margin-bottom:1rem}
-.tarjetas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.tarjeta{background:var(--hoja);border:1px solid var(--linea);border-radius:14px;padding:1.2rem;display:grid;grid-template-rows:auto 1fr auto;gap:.5rem}
-.tarjeta h3{font-size:1.2rem}
-.tarjeta p{font-size:.9375rem;color:var(--gris)}
-.tarjeta__pie{display:flex;justify-content:space-between;align-items:center;gap:.6rem;margin-top:.5rem;min-height:34px}
-.estado{font-size:.8125rem;font-weight:500;color:var(--oro-texto)}
-.anadir{border:1px solid var(--linea);background:transparent;border-radius:999px;padding:.45rem .85rem;font-size:.8125rem;font-weight:500;cursor:pointer}
-.anadir:hover{border-color:var(--tinta)}
-.cat-demo{margin-top:3rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;background:var(--oro-suave);border-radius:14px;padding:1.2rem 1.4rem}
-.cat-demo p{max-width:60ch}
+.filtros{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:2rem}
+.chip{border:0;background:var(--hoja);border-radius:999px;padding:.65rem 1rem;font-size:var(--t-1);font-weight:500;line-height:1;cursor:pointer;color:var(--gris)}
+.chip[aria-pressed="true"]{background:var(--tinta);color:var(--hoja)}
+.cat{max-width:46rem}
+.cat-grupo + .cat-grupo{margin-top:2.5rem}
+.cat-grupo h2{font-size:var(--t2);margin-bottom:.875rem}
+.anadir{border:0;background:var(--papel);border-radius:999px;padding:.6rem 1rem;font-size:var(--t-1);font-weight:500;line-height:1;cursor:pointer;white-space:nowrap}
+.cat-demo{max-width:46rem;margin-top:2.5rem;padding:1.25rem 1.5rem;border-radius:var(--radio);background:var(--hoja);display:flex;justify-content:space-between;align-items:center;gap:1rem 1.5rem;flex-wrap:wrap}
+.cat-demo p{max-width:34rem}
 
-.pie{border-top:1px solid var(--linea);padding-block:1.6rem 2.4rem;font-size:.8125rem;color:var(--gris)}
+.pie{padding-block:2rem 2.5rem;font-size:var(--t-1);color:var(--gris)}
 .pie .ancho{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 
 @media (max-width:980px){
   .prop{grid-template-columns:minmax(0,1fr)}
   .resumen{position:static}
-  .tarjetas{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .promesas{grid-template-columns:minmax(0,1fr)}
+  .promesas{grid-template-columns:minmax(0,1fr);gap:1rem}
 }
 @media (max-width:640px){
   .marca{display:none}
-  .cabecera .ancho{justify-content:center}
+  .cabecera .ancho{justify-content:center;min-height:60px}
   .pestanas{width:100%}
-  .pestanas a{flex:1;text-align:center;padding:.6rem .4rem;font-size:.875rem}
-  .tarjetas{grid-template-columns:minmax(0,1fr)}
-  .filtros{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding:0 max(16px,env(safe-area-inset-right,0px)) 4px max(16px,env(safe-area-inset-left,0px))}
+  .pestanas a{flex:1;text-align:center;padding:.7rem .4rem}
+  .fila{padding:.875rem 1rem}
+  .filtros{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px))) calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding:0 max(16px,env(safe-area-inset-right,0px)) 4px max(16px,env(safe-area-inset-left,0px))}
   .filtros::-webkit-scrollbar{display:none}
   .chip{white-space:nowrap;flex:none}
   .barra-movil{position:fixed;left:0;right:0;bottom:0;z-index:25;display:flex;justify-content:space-between;align-items:center;gap:1rem;background:var(--marco);color:#EFE8E1;padding:.8rem max(16px,env(safe-area-inset-right,0px)) calc(.8rem + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
   .barra-movil[hidden]{display:none}
-  .barra-movil span{font-size:.75rem;color:#C9BCAF;display:block}
-  .barra-movil b{font-family:var(--f-display);font-weight:400;font-size:1.3rem}
-  .barra-movil a{color:#EFE8E1;font-size:.875rem;font-weight:500}
+  .barra-movil span{font-size:var(--t-1);color:#C9BCAF;display:block}
+  .barra-movil b{font:400 var(--t1)/1.2 var(--f-display)}
+  .barra-movil a{color:#EFE8E1;font-size:var(--t-1);font-weight:500}
   #propuesta{padding-bottom:7rem}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* movimiento reducido: se quedan los fundidos, se quita el desplazamiento */
+@media (prefers-reduced-motion:reduce){
+  *{transition-property:opacity!important}
+  @starting-style{.bloque{transform:none}}
+  .boton:active,.chip:active,.anadir:active,.pestanas a:active,.conmutador button:active,button.fila:active{transform:none}
+}
 </style>
 </head>
 <body>
 <header class="cabecera">
   <div class="ancho">
-    <span class="marca">Novora<span>para África MG</span></span>
-    <nav class="pestanas" aria-label="Bloques de la propuesta">
+    <span class="marca"><b>NOVORA</b>para África MG</span>
+    <nav class="pestanas" aria-label="Partes de la propuesta">
       <a href="#web" data-vista="web">Tu web</a>
       <a href="#propuesta" data-vista="propuesta">Tu propuesta</a>
       <a href="#catalogo" data-vista="catalogo">Catálogo</a>
@@ -174,7 +190,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     <div class="ancho">
       <div class="cab">
         <h1 id="t-web">Tu web nueva</h1>
-        <p>Con tu carta, tus fotos y tu equipo. Pruébala: busca un tratamiento, mira el horario o pulsa Reservar.</p>
+        <p>La web de África MG, lista para probar: busca un tratamiento o pulsa Reservar.</p>
       </div>
       <div class="web__barra">
         <div class="conmutador" role="group" aria-label="Ver la web en">
@@ -190,7 +206,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
           </div>
         </div>
       </div>
-      <p class="web__nota">Es una vista previa: nada de lo que hagas se guarda. Las fotos y la dirección se cambian por las del local nuevo cuando abras.</p>
+      <p class="web__nota">Las fotos y la dirección se cambian por las del local nuevo.</p>
     </div>
   </section>
 
@@ -198,30 +214,25 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   <section class="bloque" id="propuesta" aria-labelledby="t-prop" hidden>
     <div class="ancho">
       <div class="cab">
-        <h1 id="t-prop">Tu propuesta, a tu medida</h1>
-        <p>Marca lo que te gustaría y ves al momento lo que pagas. Puedes empezar solo con la web y sumar lo demás cuando quieras.</p>
+        <h1 id="t-prop">Tu propuesta</h1>
+        <p>Marca lo que quieras y verás lo que pagas. Puedes empezar solo con la web.</p>
       </div>
       <div class="prop">
         <div>
           <div class="grupo">
-            <p class="grupo__tit">Lo que va siempre</p>
-            <div class="opcion opcion--fija">
-              <div><b>Tu web</b><span class="desc">Tu carta con precios, tus fotos y tu equipo. Que te encuentren en Google y te reserven con un botón, en tu Treatwell de siempre o por WhatsApp.</span></div>
-              <span class="incluida">Incluida</span>
+            <h2>Lo principal</h2>
+            <div class="lista" id="op-grandes">
+              <div class="fila"><div><b>Tu web</b><span class="desc">Tu carta, tus fotos y tu equipo, con reserva en Treatwell o por WhatsApp.</span></div><span class="estado">Incluida</span></div>
             </div>
           </div>
           <div class="grupo">
-            <p class="grupo__tit">Lo importante</p>
-            <div class="opciones" id="op-grandes"></div>
-          </div>
-          <div class="grupo">
-            <p class="grupo__tit">Detalles que suman</p>
-            <div class="opciones" id="op-detalles"></div>
+            <h2>Extras</h2>
+            <div class="lista" id="op-detalles"></div>
           </div>
           <div class="promesas">
-            <div class="promesa"><h3>Pagas cuando funciona</h3><p>Al empezar, una entrada pequeña. Las cuotas de cada cosa empiezan cuando ya funciona.</p></div>
-            <div class="promesa"><h3>Precio cerrado</h3><p>Lo que ves es lo que pagas. Si quieres algo más, te decimos el precio antes.</p></div>
-            <div class="promesa"><h3>Todo es tuyo</h3><p>La web, el dominio y tus clientas son tuyos. Si un día te vas, te lo llevas.</p></div>
+            <div class="promesa"><h3>Pagas cuando funciona</h3><p>Una entrada al empezar. Las cuotas, cuando ya funciona.</p></div>
+            <div class="promesa"><h3>Precio cerrado</h3><p>Lo que ves es lo que pagas.</p></div>
+            <div class="promesa"><h3>Todo es tuyo</h3><p>La web, el dominio y tus clientas.</p></div>
           </div>
         </div>
 
@@ -236,7 +247,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
           <ul class="elegido" id="s-lista" aria-label="Lo que has elegido"></ul>
           <p class="plazo" id="s-plazo"></p>
           <p class="peque" id="s-total"></p>
-          <p class="peque">Ya lleva un 25 % de descuento por ser nuestro primer centro, a cambio de poder enseñar tu web como ejemplo. Precios sin IVA. Válido hasta el 15 de noviembre de 2026.</p>
+          <p class="peque">Con un 25 % de descuento por ser nuestro primer centro, a cambio de enseñar tu web. Sin IVA. Válido hasta el 15 de noviembre de 2026.</p>
           <button class="boton boton--suave" type="button" id="reiniciar">Volver a solo la web</button>
         </aside>
       </div>
@@ -247,13 +258,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   <section class="bloque" id="catalogo" aria-labelledby="t-cat" hidden>
     <div class="ancho">
       <div class="cab">
-        <h1 id="t-cat">Todo lo que podemos hacer por tu centro</h1>
-        <p>Cosas que hoy hacéis a mano, o que se os escapan, y que pueden funcionar solas. Si algo te encaja, añádelo a tu propuesta.</p>
+        <h1 id="t-cat">Lo que podemos hacer por tu centro</h1>
+        <p>Si algo te encaja, añádelo a tu propuesta.</p>
       </div>
       <div class="filtros" role="group" aria-label="Filtrar el catálogo" id="filtros"></div>
-      <div id="catalogo-lista"></div>
+      <div class="cat" id="catalogo-lista"></div>
       <div class="cat-demo">
-        <p>¿Quieres ver cómo funcionan las reservas, el WhatsApp que contesta solo y la agenda del equipo? Hay una demostración para probarlo como si fueras una clienta.</p>
+        <p>Prueba las reservas, el WhatsApp y la agenda como si fueras una clienta.</p>
         <a class="boton" href="demo-reservas.html" target="_blank" rel="noopener">Probar la demostración</a>
       </div>
     </div>
@@ -267,7 +278,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 </div>
 
 <footer class="pie">
-  <div class="ancho"><span>NOVORA · Propuesta NOV-2026-003 para África MG · 21 de octubre de 2026</span><span>Félix Ortuño</span></div>
+  <div class="ancho"><span>Propuesta NOV-2026-003, 21 de octubre de 2026</span><span>Félix Ortuño, NOVORA</span></div>
 </footer>
 
 <script>
@@ -311,31 +322,30 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
      precio = puesta en marcha (empezar + 12 cuotas); mant = cada mes; semanas = plazo de construcción */
   var BASE={nombre:"Tu web",precio:690,empezar:150,cuota:45,mant:25,semanas:6};
   var OPCIONES=[
-    {id:"reservas",corto:"las reservas online",grupo:"grandes",nombre:"Que tus clientas reserven solas, a cualquier hora",desc:"Eligen tratamiento, con quién y a qué hora desde tu web. Les llega la confirmación y un recordatorio por WhatsApp, y vosotras veis la agenda en el móvil.",precio:990,empezar:210,cuota:65,mant:35,semanas:9},
-    {id:"whatsapp",corto:"el WhatsApp que reserva",grupo:"grandes",nombre:"Que el WhatsApp conteste y reserve por ti",desc:"Cuando una clienta escribe «¿tienes hueco el jueves?», le contesta al momento y le reserva, aunque sean las once de la noche.",precio:490,empezar:130,cuota:30,mant:30,semanas:4,req:"reservas"},
-    {id:"fichas",grupo:"grandes",nombre:"Las fichas de tus clientas y la caja",desc:"Historial, notas y alergias de cada clienta a mano en cada cita, y el cierre de caja del día sin libreta.",precio:650,empezar:170,cuota:40,mant:15,semanas:6,req:"reservas"},
-    {id:"bonos",grupo:"detalles",nombre:"Bonos regalo que se compran en tu web",desc:"Como el de la vista previa, y con la cuenta de lo que queda en cada bono.",precio:290,empezar:50,cuota:20,mant:10,semanas:2},
-    {id:"resenas",grupo:"detalles",nombre:"Pedir opiniones en Google después de cada cita",desc:"Un mensaje amable tras la cita y una placa en el mostrador para opinar acercando el móvil.",precio:350,empezar:110,cuota:20,mant:12,semanas:2,req:"reservas"},
-    {id:"espera",grupo:"detalles",nombre:"Avisar sola a quien espera un hueco",desc:"Si alguien cancela, se avisa a la siguiente clienta que quería esa hora.",precio:190,empezar:70,cuota:10,mant:5,semanas:2,req:"reservas"},
-    {id:"campanas",grupo:"detalles",nombre:"Felicitar cumpleaños y avisar cuando toca el retoque",desc:"Un detalle por su cumpleaños y un aviso cuando toca el retoque de microblading o la siguiente sesión.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:"reservas"},
-    {id:"senal",grupo:"detalles",nombre:"Pedir una señal en las citas largas",desc:"En micropigmentación o Plasma Pen, la clienta deja una señal al reservar. Menos citas perdidas.",precio:390,empezar:90,cuota:25,mant:12,semanas:3,req:"reservas"},
-    {id:"app",grupo:"detalles",nombre:"Una app para tus clientas",desc:"Se la instaláis en su primera cita: reservan, ven sus citas y sus bonos.",precio:490,empezar:130,cuota:30,mant:10,semanas:4,req:"reservas"},
-    {id:"tienda",grupo:"detalles",nombre:"Vender tus cremas en el centro y en la web",desc:"Mesoestetic y The Natural One a la venta, sabiendo siempre lo que queda en la estantería.",precio:590,empezar:110,cuota:40,mant:15,semanas:6},
-    {id:"telefono",grupo:"detalles",nombre:"Que alguien coja el teléfono cuando estáis ocupadas",desc:"Atiende la llamada, mira la agenda y reserva mientras tenéis las manos en una clienta.",precio:590,empezar:110,cuota:40,mant:49,semanas:4,req:"reservas"},
-    {id:"recuperar",grupo:"detalles",nombre:"Que el WhatsApp también resuelva dudas y recupere clientas",desc:"Explica los tratamientos y escribe a las clientas que hace tiempo que no vienen.",precio:340,empezar:100,cuota:20,mant:18,semanas:3,req:"whatsapp"},
-    {id:"informes",grupo:"detalles",nombre:"Ver cómo va el centro",desc:"Lo que facturas, qué tratamientos funcionan y de dónde vienen tus clientas, sin hacer cuentas.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:"reservas"},
-    {id:"google",grupo:"detalles",nombre:"Que llevemos tu ficha de Google",desc:"Fotos, publicaciones y respuestas a opiniones cada mes, para salir arriba en Castellón.",precio:0,empezar:0,cuota:0,mant:49,semanas:0}
+    {id:"reservas",corto:"las reservas online",grupo:"grandes",nombre:"Reservas online",desc:"A cualquier hora, con recordatorio por WhatsApp.",precio:990,empezar:210,cuota:65,mant:35,semanas:9},
+    {id:"whatsapp",corto:"el WhatsApp que reserva",grupo:"grandes",nombre:"WhatsApp que reserva",desc:"Contesta al momento y reserva, también de noche.",precio:490,empezar:130,cuota:30,mant:30,semanas:4,req:"reservas"},
+    {id:"fichas",grupo:"grandes",nombre:"Fichas de clientas y caja",desc:"Historial y alergias en cada cita, y el cierre de caja sin libreta.",precio:650,empezar:170,cuota:40,mant:15,semanas:6,req:"reservas"},
+    {id:"bonos",grupo:"detalles",nombre:"Bonos regalo en la web",desc:"Se compran online y llevas la cuenta de lo que queda.",precio:290,empezar:50,cuota:20,mant:10,semanas:2},
+    {id:"resenas",grupo:"detalles",nombre:"Opiniones en Google",desc:"Un mensaje tras cada cita y una placa en el mostrador.",precio:350,empezar:110,cuota:20,mant:12,semanas:2,req:"reservas"},
+    {id:"espera",grupo:"detalles",nombre:"Lista de espera",desc:"Si alguien cancela, se avisa a quien quería esa hora.",precio:190,empezar:70,cuota:10,mant:5,semanas:2,req:"reservas"},
+    {id:"campanas",grupo:"detalles",nombre:"Cumpleaños y retoques",desc:"Un detalle por su cumpleaños y un aviso cuando toca el retoque.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:"reservas"},
+    {id:"senal",grupo:"detalles",nombre:"Señal en citas largas",desc:"Para micropigmentación o Plasma Pen. Menos citas perdidas.",precio:390,empezar:90,cuota:25,mant:12,semanas:3,req:"reservas"},
+    {id:"app",grupo:"detalles",nombre:"App para tus clientas",desc:"Reservan y ven sus citas y sus bonos.",precio:490,empezar:130,cuota:30,mant:10,semanas:4,req:"reservas"},
+    {id:"tienda",grupo:"detalles",nombre:"Venta de cremas",desc:"En el centro y en la web, sabiendo lo que queda.",precio:590,empezar:110,cuota:40,mant:15,semanas:6},
+    {id:"telefono",grupo:"detalles",nombre:"Alguien que coge el teléfono",desc:"Atiende y reserva mientras estáis con una clienta.",precio:590,empezar:110,cuota:40,mant:49,semanas:4,req:"reservas"},
+    {id:"recuperar",grupo:"detalles",nombre:"WhatsApp que resuelve dudas",desc:"Explica los tratamientos y escribe a quien hace tiempo que no viene.",precio:340,empezar:100,cuota:20,mant:18,semanas:3,req:"whatsapp"},
+    {id:"informes",grupo:"detalles",nombre:"Cómo va el centro",desc:"Facturación, tratamientos que funcionan y de dónde vienen tus clientas.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:"reservas"},
+    {id:"google",grupo:"detalles",nombre:"Tu ficha de Google",desc:"Fotos, publicaciones y respuestas a opiniones cada mes.",precio:0,empezar:0,cuota:0,mant:49,semanas:0}
   ];
   var POR_ID={}; OPCIONES.forEach(function(o){POR_ID[o.id]=o});
   var elegidas={};
   try{var g=JSON.parse(localStorage.getItem("amg-propuesta")||"{}");Object.keys(g).forEach(function(k){if(POR_ID[k])elegidas[k]=!!g[k]})}catch(e){}
 
-  function minuscula(t){return t.charAt(0).toLowerCase()+t.slice(1)}
   function opcionHTML(o){
-    var req=o.req?'<small>Funciona con '+POR_ID[o.req].corto+'</small>':"";
-    return '<button type="button" class="opcion" role="switch" aria-checked="false" data-id="'+o.id+'" id="op-'+o.id+'"><div><b>'+o.nombre+'</b><span class="desc">'+o.desc+'</span>'+req+'</div><span class="interruptor" aria-hidden="true"></span></button>';
+    var req=o.req?'<small>Necesita '+POR_ID[o.req].corto+'</small>':"";
+    return '<button type="button" class="fila" role="switch" aria-checked="false" data-id="'+o.id+'" id="op-'+o.id+'"><div><b>'+o.nombre+'</b><span class="desc">'+o.desc+'</span>'+req+'</div><span class="interruptor" aria-hidden="true"></span></button>';
   }
-  $("op-grandes").innerHTML=OPCIONES.filter(function(o){return o.grupo==="grandes"}).map(opcionHTML).join("");
+  $("op-grandes").insertAdjacentHTML("beforeend",OPCIONES.filter(function(o){return o.grupo==="grandes"}).map(opcionHTML).join(""));
   $("op-detalles").innerHTML=OPCIONES.filter(function(o){return o.grupo==="detalles"}).map(opcionHTML).join("");
 
   function pintar(){
@@ -349,9 +359,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     $("m-mes").textContent=eur(t.mes);
     $("s-lista").innerHTML=lista.map(function(o){return "<li>"+o.nombre+"</li>"}).join("");
     $("s-plazo").innerHTML=lista.length===1
-      ? "Tu web, <b>online en unas 6 semanas</b>. Firmando a primeros de noviembre, antes de Navidad."
-      : "Tu web, <b>online en unas 6 semanas</b>. Lo demás llega por partes después: todo listo en <b>unas "+t.semanas+" semanas</b>.";
-    $("s-total").textContent="Puesta en marcha: "+eur(t.precio)+", repartida en la entrada y 12 cuotas sin intereses. Lo de «después» es el mantenimiento: alojamiento, copias de seguridad, soporte y los mensajes de WhatsApp.";
+      ? "Web lista en unas <b>6 semanas</b>. Si firmas a primeros de noviembre, antes de Navidad."
+      : "Web lista en unas <b>6 semanas</b>, y todo en unas <b>"+t.semanas+" semanas</b>.";
+    $("s-total").textContent="Puesta en marcha: "+eur(t.precio)+", en la entrada y 12 cuotas sin intereses. Después solo pagas el mantenimiento.";
     OPCIONES.forEach(function(o){$("op-"+o.id).setAttribute("aria-checked",!!elegidas[o.id])});
     pintarCatalogo();
     try{localStorage.setItem("amg-propuesta",JSON.stringify(elegidas))}catch(e){}
@@ -361,15 +371,15 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     elegidas[id]=valor;
     if(valor){
       var r=POR_ID[id].req;
-      while(r){if(!elegidas[r]){elegidas[r]=true;avisos.push("Hemos añadido "+POR_ID[r].corto+", porque hace falta.")}r=POR_ID[r].req}
+      while(r){if(!elegidas[r]){elegidas[r]=true;avisos.push("Hemos añadido "+POR_ID[r].corto+".")}r=POR_ID[r].req}
     }else{
-      OPCIONES.forEach(function(o){var r=o.req;while(r){if(r===id&&elegidas[o.id]){elegidas[o.id]=false;avisos.push("Hemos quitado «"+minuscula(o.nombre)+"», porque funciona con lo que has quitado.")}r=POR_ID[r].req}});
+      OPCIONES.forEach(function(o){var r=o.req;while(r){if(r===id&&elegidas[o.id]){elegidas[o.id]=false;avisos.push("Hemos quitado «"+o.nombre+"».")}r=POR_ID[r].req}});
     }
     $("aviso").textContent=avisos.join(" "); $("aviso").hidden=!avisos.length;
     pintar();
   }
   document.addEventListener("click",function(e){
-    var b=e.target.closest(".opcion[data-id]"); if(b){cambiar(b.dataset.id,b.getAttribute("aria-checked")!=="true");return}
+    var b=e.target.closest(".fila[data-id]"); if(b){cambiar(b.dataset.id,b.getAttribute("aria-checked")!=="true");return}
     var a=e.target.closest(".anadir[data-id]"); if(a){cambiar(a.dataset.id,true);ir("propuesta");return}
   });
   $("reiniciar").addEventListener("click",function(){elegidas={};$("aviso").hidden=true;pintar()});
@@ -378,34 +388,34 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   /* ---------- 3 · Catálogo (sin precios) ---------- */
   var CATALOGO=[
     {grupo:"Que te encuentren",items:[
-      {n:"Tu web con tu carta",d:"Tratamientos, precios y duraciones siempre al día, con tus fotos y tu equipo.",en:"base"},
-      {n:"Tu ficha de Google al día",d:"Fotos, publicaciones y respuestas a opiniones para salir arriba cuando buscan en Castellón.",en:"google"},
-      {n:"Opiniones en Google sin pedirlas tú",d:"Tras cada cita sale un mensaje amable pidiendo la opinión. Y una placa en el mostrador.",en:"resenas"}
+      {n:"Tu web con tu carta",d:"Tratamientos, precios y fotos, siempre al día.",en:"base"},
+      {n:"Tu ficha de Google al día",d:"Para salir arriba cuando buscan en Castellón.",en:"google"},
+      {n:"Opiniones en Google",d:"Se piden solas después de cada cita.",en:"resenas"}
     ]},
     {grupo:"Reservas y agenda",items:[
-      {n:"Reservas a cualquier hora",d:"Tus clientas eligen tratamiento, profesional y hora desde tu web, también de madrugada.",en:"reservas"},
-      {n:"Confirmación y recordatorio por WhatsApp",d:"Les llega la cita confirmada y un aviso el día antes. Menos clientas que no vienen.",en:"reservas"},
-      {n:"La agenda del equipo en el móvil",d:"Cada una ve sus citas y ficha su entrada y salida. Tú ves todo el centro.",en:"reservas"},
-      {n:"Lista de espera automática",d:"Si alguien cancela, se avisa sola a la siguiente clienta que quería ese hueco.",en:"espera"},
-      {n:"Señal en las citas largas",d:"En micropigmentación o Plasma Pen, la clienta deja una señal al reservar.",en:"senal"},
-      {n:"App para tus clientas",d:"Se la instaláis en su primera cita para reservar y ver sus citas y bonos.",en:"app"}
+      {n:"Reservas a cualquier hora",d:"Desde tu web, también de madrugada.",en:"reservas"},
+      {n:"Confirmación y recordatorio",d:"Por WhatsApp, el día antes. Menos clientas que no vienen.",en:"reservas"},
+      {n:"La agenda del equipo en el móvil",d:"Cada una ve sus citas. Tú ves todo el centro.",en:"reservas"},
+      {n:"Lista de espera",d:"Si alguien cancela, se avisa a la siguiente.",en:"espera"},
+      {n:"Señal en citas largas",d:"Para micropigmentación o Plasma Pen.",en:"senal"},
+      {n:"App para tus clientas",d:"Reservan y ven sus citas y sus bonos.",en:"app"}
     ]},
-    {grupo:"Atender sin estar pendiente",items:[
-      {n:"WhatsApp que contesta y reserva",d:"Responde al momento, ofrece horas libres y reserva, cambia o cancela.",en:"whatsapp"},
-      {n:"WhatsApp que resuelve dudas",d:"Explica en qué consiste cada tratamiento, cuánto dura y qué cuidados lleva.",en:"recuperar"},
-      {n:"Alguien que coge el teléfono",d:"Atiende las llamadas cuando estáis con una clienta y reserva en la agenda.",en:"telefono"}
+    {grupo:"Atención",items:[
+      {n:"WhatsApp que reserva",d:"Contesta al momento y reserva, cambia o cancela.",en:"whatsapp"},
+      {n:"WhatsApp que resuelve dudas",d:"Explica cada tratamiento y sus cuidados.",en:"recuperar"},
+      {n:"Alguien que coge el teléfono",d:"Atiende y reserva mientras estáis con una clienta.",en:"telefono"}
     ]},
-    {grupo:"Que vuelvan y compren",items:[
-      {n:"Bonos regalo desde la web",d:"Para Navidad, cumpleaños o el Día de la Madre, sin que tengas que estar tú.",en:"bonos"},
-      {n:"Felicitaciones y «te toca»",d:"Un detalle por su cumpleaños y un aviso cuando toca el retoque o la siguiente sesión.",en:"campanas"},
-      {n:"Recuperar clientas que no vuelven",d:"Un mensaje a quien hace meses que no viene, con algo pensado para ella.",en:"recuperar"},
-      {n:"Venta de tus cremas",d:"En el centro y en la web, sabiendo siempre qué queda en la estantería.",en:"tienda"}
+    {grupo:"Que vuelvan",items:[
+      {n:"Bonos regalo en la web",d:"Para Navidad, cumpleaños o el Día de la Madre.",en:"bonos"},
+      {n:"Cumpleaños y retoques",d:"Un detalle por su cumpleaños y un aviso cuando toca el retoque.",en:"campanas"},
+      {n:"Recuperar clientas",d:"Un mensaje a quien hace meses que no viene.",en:"recuperar"},
+      {n:"Venta de cremas",d:"En el centro y en la web, sabiendo lo que queda.",en:"tienda"}
     ]},
-    {grupo:"El día a día del centro",items:[
-      {n:"Ficha de cada clienta",d:"Historial, notas, alergias y lo que se hizo la última vez, a mano en cada cita.",en:"fichas"},
-      {n:"Cobro y cierre de caja",d:"Lo cobrado en el día, cuadrado al cerrar, sin libreta ni calculadora.",en:"fichas"},
-      {n:"Ver cómo va el centro",d:"Qué facturas, qué tratamientos funcionan y de dónde vienen tus clientas.",en:"informes"},
-      {n:"Facturas y tu gestoría",d:"Tus facturas y lo que necesita tu gestor, sin pasar nada a mano. Primero hablamos con tu gestoría.",en:null}
+    {grupo:"El día a día",items:[
+      {n:"Ficha de cada clienta",d:"Historial, notas y alergias en cada cita.",en:"fichas"},
+      {n:"Cobro y cierre de caja",d:"Cuadrado al cerrar, sin libreta.",en:"fichas"},
+      {n:"Cómo va el centro",d:"Facturación y tratamientos que funcionan.",en:"informes"},
+      {n:"Facturas y gestoría",d:"Sin pasar nada a mano. Lo vemos antes con tu gestoría.",en:null}
     ]}
   ];
   var filtro="";
@@ -413,13 +423,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   $("filtros").addEventListener("click",function(e){var c=e.target.closest(".chip");if(!c)return;filtro=c.dataset.f;pintarCatalogo()});
   function pintarCatalogo(){
     $("catalogo-lista").innerHTML=CATALOGO.filter(function(g){return !filtro||g.grupo===filtro}).map(function(g){
-      return '<div class="cat-grupo"><h2>'+g.grupo+'</h2><div class="tarjetas">'+g.items.map(function(it){
+      return '<div class="cat-grupo"><h2>'+g.grupo+'</h2><div class="lista">'+g.items.map(function(it){
         var pie;
-        if(it.en==="base") pie='<span class="estado">Incluido en tu propuesta</span>';
-        else if(!it.en) pie='<span class="estado">Lo vemos con tu gestor</span>';
-        else if(elegidas[it.en]) pie='<span class="estado">En tu propuesta</span>';
-        else pie='<span></span><button type="button" class="anadir" data-id="'+it.en+'">Añadir a mi propuesta</button>';
-        return '<article class="tarjeta"><h3>'+it.n+'</h3><p>'+it.d+'</p><div class="tarjeta__pie">'+pie+'</div></article>';
+        if(it.en==="base") pie='<span class="estado">Incluida</span>';
+        else if(!it.en) pie='<span class="estado">Con tu gestoría</span>';
+        else if(elegidas[it.en]) pie='<span class="estado estado--si">En tu propuesta</span>';
+        else pie='<button type="button" class="anadir" data-id="'+it.en+'" aria-label="Añadir '+it.n+' a tu propuesta">Añadir</button>';
+        return '<div class="fila"><div><b>'+it.n+'</b><span class="desc">'+it.d+'</span></div>'+pie+'</div>';
       }).join("")+'</div></div>';
     }).join("");
     document.querySelectorAll("#filtros .chip").forEach(function(c){c.setAttribute("aria-pressed",c.dataset.f===filtro)});
