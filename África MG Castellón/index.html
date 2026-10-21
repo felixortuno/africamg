@@ -49,8 +49,11 @@ button{font:inherit;color:inherit}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--hoja)}
 .cabecera{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--hoja)}
 .cabecera .ancho{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:64px}
-.marca{font-size:var(--t-1);color:var(--gris);white-space:nowrap}
-.marca b{font-weight:600;letter-spacing:.12em;color:var(--tinta);margin-right:.4rem}
+/* logo de NOVORA: un círculo de tinta con una «nova» dorada que lo recorta, y el nombre */
+.logo{display:inline-flex;align-items:center;gap:.6rem;color:var(--tinta);white-space:nowrap}
+.logo svg{width:26px;height:26px;flex:none}
+.logo__nova{fill:var(--oro);stroke:var(--hoja);stroke-width:2.5}
+.logo span{font-size:var(--t0);font-weight:600;letter-spacing:.16em;line-height:1}
 .pestanas{display:flex;gap:4px;background:var(--papel);border-radius:999px;padding:4px}
 .pestanas a{text-decoration:none;font-size:var(--t0);font-weight:500;line-height:1;padding:.7rem 1.1rem;border-radius:999px;color:var(--gris);white-space:nowrap}
 .pestanas a[aria-current="page"]{background:var(--tinta);color:var(--hoja)}
@@ -63,15 +66,18 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .cab p{margin-top:.75rem;font-size:var(--t1);line-height:1.4}
 .boton{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:.7rem 1.3rem;border:0;background:var(--tinta);color:var(--hoja);font-size:var(--t0);font-weight:500;border-radius:999px;cursor:pointer;text-decoration:none;white-space:nowrap}
 .boton--suave{background:var(--papel);color:var(--tinta)}
+.boton:disabled{opacity:.4;cursor:not-allowed}
 
 /* respuesta al pulsar en todo lo que se toca; el hover solo con ratón */
-.boton,.chip,.anadir,.pestanas a,.conmutador button,:is(button,label).fila{transition:transform .16s var(--ease-out),background-color .2s ease,color .2s ease}
-.boton:active,.chip:active,.anadir:active,.pestanas a:active,.conmutador button:active{transform:scale(.97)}
+.boton,.mas,.pestanas a,.conmutador button,:is(button,label).fila{transition:transform .16s var(--ease-out),background-color .2s ease,color .2s ease}
+.boton:active,.pestanas a:active,.conmutador button:active{transform:scale(.97)}
+.mas:active{transform:scale(.9)}
 :is(button,label).fila:active{transform:scale(.99)}
 @media (hover:hover) and (pointer:fine){
-  .pestanas a:not([aria-current]):hover,.conmutador button[aria-pressed="false"]:hover,.chip[aria-pressed="false"]:hover{color:var(--tinta)}
+  .pestanas a:not([aria-current]):hover,.conmutador button[aria-pressed="false"]:hover{color:var(--tinta)}
   :is(button,label).fila:hover{background:color-mix(in srgb,var(--papel) 60%,var(--hoja))}
-  .anadir:hover,.boton--suave:hover{background:var(--suave)}
+  .mas:hover,.boton--suave:not(:disabled):hover{background:var(--suave)}
+  .fila[aria-disabled="true"]:hover{background:none}
   .boton:not(.boton--suave):hover{background:color-mix(in srgb,var(--tinta) 85%,var(--hoja))}
 }
 
@@ -82,8 +88,12 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .fila b{display:block;font:400 var(--t1)/1.25 var(--f-display)}
 .fila .desc{display:block;color:var(--gris);margin-top:.15rem}
 .fila small{display:block;font-size:var(--t-1);color:var(--gris);margin-top:.2rem}
-.estado{font-size:var(--t-1);color:var(--gris);white-space:nowrap}
-.estado--si{color:var(--oro);font-weight:600}
+/* bloqueada: falta algo de lo que depende (o se ha elegido el retoque) */
+.fila[aria-disabled="true"]{cursor:not-allowed}
+.fila[aria-disabled="true"] b,.fila[aria-disabled="true"] .desc,.fila[aria-disabled="true"] .interruptor{opacity:.4}
+.fila[aria-disabled="true"]:active{transform:none}
+.fila small.falta{color:var(--tinta)}
+#solo-retoque{margin-top:1rem}
 
 /* 1 · la web */
 .web__barra{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}
@@ -139,15 +149,21 @@ label.fila{position:relative}
 .barra-movil{display:none}
 
 /* 3 · catálogo */
-.filtros{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:2rem}
-.chip{border:0;background:var(--hoja);border-radius:999px;padding:.65rem 1rem;font-size:var(--t-1);font-weight:500;line-height:1;cursor:pointer;color:var(--gris)}
-.chip[aria-pressed="true"]{background:var(--tinta);color:var(--hoja)}
-.cat{max-width:46rem}
-.cat-grupo + .cat-grupo{margin-top:2.5rem}
-.cat-grupo h2{font-size:var(--t2);margin-bottom:.875rem}
-.anadir{border:0;background:var(--papel);border-radius:999px;padding:.6rem 1rem;font-size:var(--t-1);font-weight:500;line-height:1;cursor:pointer;white-space:nowrap}
-.cat-demo{max-width:46rem;margin-top:2.5rem;padding:1.25rem 1.5rem;border-radius:var(--radio);background:var(--hoja);display:flex;justify-content:space-between;align-items:center;gap:1rem 1.5rem;flex-wrap:wrap}
-.cat-demo p{max-width:34rem}
+/* una carta: cada grupo es un bloque blanco en una rejilla de tres; la demostración cierra la rejilla */
+.cat{display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:1rem}
+#catalogo-lista{display:contents}
+.cat-grupo{background:var(--hoja);border-radius:var(--radio);padding:1.1rem 1.1rem .6rem}
+.cat-grupo h2,.cat-demo h2{font-size:var(--t1);margin-bottom:.4rem}
+.pieza{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.75rem;align-items:center;padding:.5rem 0}
+.pieza b{display:block;font-weight:500;line-height:1.3}
+.pieza>div>span{display:block;font-size:var(--t-1);line-height:1.4;color:var(--gris)}
+.pieza>div>.falta{color:var(--tinta)}
+.mas,.hecho{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex:none}
+.mas{border:0;padding:0;background:var(--papel);color:var(--tinta);cursor:pointer}
+.hecho{background:var(--oro);color:var(--hoja)}
+.mas svg,.hecho svg{width:14px;height:14px}
+.cat-demo{border-radius:var(--radio);background:var(--marco);color:#EFE8E1;padding:1.1rem;display:flex;flex-direction:column;align-items:flex-start;gap:.75rem}
+.cat-demo p{flex:1;color:#C9BCAF}
 
 .pie{padding-block:2rem 2.5rem;font-size:var(--t-1);color:var(--gris)}
 .pie .ancho{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
@@ -158,14 +174,11 @@ label.fila{position:relative}
   .promesas{grid-template-columns:minmax(0,1fr);gap:1rem}
 }
 @media (max-width:640px){
-  .marca{display:none}
+  .cabecera .logo{display:none}
   .cabecera .ancho{justify-content:center;min-height:60px}
   .pestanas{width:100%}
   .pestanas a{flex:1;text-align:center;padding:.7rem .4rem}
   .fila{padding:.875rem 1rem}
-  .filtros{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px))) calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding:0 max(16px,env(safe-area-inset-right,0px)) 4px max(16px,env(safe-area-inset-left,0px))}
-  .filtros::-webkit-scrollbar{display:none}
-  .chip{white-space:nowrap;flex:none}
   .barra-movil{position:fixed;left:0;right:0;bottom:0;z-index:25;display:flex;justify-content:space-between;align-items:center;gap:1rem;background:var(--marco);color:#EFE8E1;padding:.8rem max(16px,env(safe-area-inset-right,0px)) calc(.8rem + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
   .barra-movil[hidden]{display:none}
   .barra-movil span{font-size:var(--t-1);color:#C9BCAF;display:block}
@@ -177,7 +190,9 @@ label.fila{position:relative}
 .albaran{font:400 10pt/1.45 var(--f-texto);color:#221C18;background:#fff}
 .alb-cab{display:flex;justify-content:space-between;align-items:flex-start;gap:12mm;padding-bottom:6mm;border-bottom:1.5pt solid #221C18} /* taste-skill-ignore: cabecera de documento */
 .alb-cab p{color:#6B645F}
-.alb-cab .alb-marca{font-weight:600;letter-spacing:.12em;color:#221C18}
+.alb-cab .logo{color:#221C18}
+.alb-cab .logo__nova{fill:#8A6A3E;stroke:#fff}
+.alb-autor{margin-top:2mm}
 .alb-doc{text-align:right}
 .alb-doc h1{font:400 22pt/1.1 var(--f-display);color:#221C18;margin-bottom:1.5mm}
 .alb-cliente{margin:7mm 0 8mm;font:400 14pt/1.3 var(--f-display)}
@@ -206,14 +221,14 @@ label.fila{position:relative}
 @media (prefers-reduced-motion:reduce){
   *{transition-property:opacity!important}
   @starting-style{.bloque{transform:none}}
-  .boton:active,.chip:active,.anadir:active,.pestanas a:active,.conmutador button:active,:is(button,label).fila:active{transform:none}
+  .boton:active,.mas:active,.pestanas a:active,.conmutador button:active,:is(button,label).fila:active{transform:none}
 }
 </style>
 </head>
 <body>
 <header class="cabecera">
   <div class="ancho">
-    <span class="marca"><b>NOVORA</b>para África MG</span>
+    <span class="logo" role="img" aria-label="NOVORA"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="11.5" cy="14.5" r="10" fill="currentColor"/><circle class="logo__nova" cx="20" cy="6" r="4.5"/></svg><span aria-hidden="true">NOVORA</span></span>
     <nav class="pestanas" aria-label="Partes de la propuesta">
       <a href="#web" data-vista="web">Tu web</a>
       <a href="#propuesta" data-vista="propuesta">Tu propuesta</a>
@@ -260,6 +275,7 @@ label.fila{position:relative}
           <div class="grupo">
             <h2>Tu web</h2>
             <div class="lista" id="op-base" role="radiogroup" aria-label="Tu web"></div>
+            <p class="aviso" id="solo-retoque" hidden>Con el retoque no se añade nada más. Para sumar piezas, elige la web nueva.</p>
           </div>
           <div class="grupo">
             <h2>Lo principal</h2>
@@ -304,11 +320,13 @@ label.fila{position:relative}
         <h1 id="t-cat">Lo que podemos hacer por tu centro</h1>
         <p>Si algo te encaja, añádelo a tu propuesta.</p>
       </div>
-      <div class="filtros" role="group" aria-label="Filtrar el catálogo" id="filtros"></div>
-      <div class="cat" id="catalogo-lista"></div>
-      <div class="cat-demo">
-        <p>Prueba las reservas, el WhatsApp y la agenda como si fueras una clienta.</p>
-        <a class="boton" href="demo-reservas.html" target="_blank" rel="noopener">Probar la demostración</a>
+      <div class="cat">
+        <div id="catalogo-lista"></div>
+        <div class="cat-demo">
+          <h2>Pruébalo</h2>
+          <p>Las reservas, el WhatsApp y la agenda, como si fueras una clienta.</p>
+          <a class="boton boton--suave" href="demo-reservas.html" target="_blank" rel="noopener">Probar la demostración</a>
+        </div>
       </div>
     </div>
   </section>
@@ -327,7 +345,7 @@ label.fila{position:relative}
 <!-- Resumen en PDF: hoja tipo albarán con lo elegido. Solo se ve al imprimir o guardar como PDF. -->
 <section class="albaran" id="albaran" hidden>
   <header class="alb-cab">
-    <div><p class="alb-marca">NOVORA</p><p>Félix Ortuño</p></div>
+    <div><p class="logo" role="img" aria-label="NOVORA"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="11.5" cy="14.5" r="10" fill="currentColor"/><circle class="logo__nova" cx="20" cy="6" r="4.5"/></svg><span aria-hidden="true">NOVORA</span></p><p class="alb-autor">Félix Ortuño</p></div>
     <div class="alb-doc"><h1>Resumen de propuesta</h1><p>Nº NOV-2026-003</p><p id="alb-fecha"></p></div>
   </header>
   <p class="alb-cliente"><span>Cliente</span>África MG, Castellón de la Plana</p>
@@ -380,42 +398,54 @@ label.fila{position:relative}
 
   /* ---------- 2 · Propuesta ----------
      precio = puesta en marcha (empezar + 12 cuotas); mant = cada mes; semanas = plazo de construcción.
-     BASES: se elige una, la web nueva o (lo mínimo) retocar la que tiene del Kit Digital. */
+     BASES: se elige una, la web nueva o (lo mínimo) retocar la que tiene del Kit Digital; con el retoque no se elige nada más.
+     req: lo que tiene que estar elegido antes; mientras falte algo, la opción queda bloqueada y lo dice. */
   var BASES={
     nueva:{nombre:"Web nueva",desc:"La de «Tu web»: tu carta, tus fotos y tu equipo, con reserva en Treatwell o por WhatsApp.",precio:690,empezar:150,cuota:45,mant:25,semanas:6,listo:"Web lista en unas <b>6 semanas</b>"},
-    retoque:{nombre:"Retoque de tu web actual",desc:"Ponemos al día la web que ya tienes del Kit Digital: textos, precios y fotos.",nota:"La opción más económica",precio:290,empezar:50,cuota:20,mant:10,semanas:2,listo:"Tu web, retocada en unas <b>2 semanas</b>"}
+    retoque:{nombre:"Retoque de tu web actual",desc:"Ponemos al día la web que ya tienes del Kit Digital: textos, precios y fotos.",nota:"La opción más económica, sin extras",precio:290,empezar:50,cuota:20,mant:10,semanas:2,listo:"Tu web, retocada en unas <b>2 semanas</b>"}
   };
   var base="nueva";
   try{var gb=localStorage.getItem("amg-propuesta-base");if(BASES[gb])base=gb}catch(e){}
   var OPCIONES=[
-    {id:"reservas",corto:"las reservas online",grupo:"grandes",nombre:"Reservas online",desc:"A cualquier hora, con recordatorio por WhatsApp.",precio:990,empezar:210,cuota:65,mant:35,semanas:9},
-    {id:"whatsapp",corto:"el WhatsApp que reserva",grupo:"grandes",nombre:"WhatsApp que reserva",desc:"Contesta al momento y reserva, también de noche.",precio:490,empezar:130,cuota:30,mant:30,semanas:4,req:"reservas"},
-    {id:"fichas",grupo:"grandes",nombre:"Fichas de clientas y caja",desc:"Historial y alergias en cada cita, y el cierre de caja sin libreta.",precio:650,empezar:170,cuota:40,mant:15,semanas:6,req:"reservas"},
+    {id:"interna",corto:"la agenda",grupo:"grandes",nombre:"Agenda del equipo (app interna)",desc:"Cada una ve sus citas en el móvil y tú, todo el centro.",precio:450,empezar:90,cuota:30,mant:15,semanas:4},
+    {id:"crm",corto:"las fichas",grupo:"grandes",nombre:"Fichas de clientas (CRM)",desc:"Historial, notas y alergias de cada clienta.",precio:350,empezar:110,cuota:20,mant:8,semanas:3},
+    {id:"erp",corto:"la caja",grupo:"grandes",nombre:"Caja y facturación (ERP)",desc:"Cobros, cierre de caja y facturas, sin libreta.",precio:300,empezar:60,cuota:20,mant:7,semanas:3},
+    {id:"reservas",corto:"las reservas",grupo:"grandes",nombre:"Reservas con agente",desc:"Un agente en tu web que reserva por ti a cualquier hora, con recordatorio por WhatsApp.",precio:540,empezar:120,cuota:35,mant:20,semanas:5,req:["interna","crm","erp"]},
+    {id:"whatsapp",corto:"el WhatsApp que reserva",grupo:"grandes",nombre:"WhatsApp que reserva",desc:"Contesta al momento y reserva, también de noche.",precio:490,empezar:130,cuota:30,mant:30,semanas:4,req:["reservas"]},
     {id:"bonos",grupo:"detalles",nombre:"Bonos regalo en la web",desc:"Se compran online y llevas la cuenta de lo que queda.",precio:290,empezar:50,cuota:20,mant:10,semanas:2},
-    {id:"resenas",grupo:"detalles",nombre:"Opiniones en Google",desc:"Un mensaje tras cada cita y una placa en el mostrador.",precio:350,empezar:110,cuota:20,mant:12,semanas:2,req:"reservas"},
-    {id:"espera",grupo:"detalles",nombre:"Lista de espera",desc:"Si alguien cancela, se avisa a quien quería esa hora.",precio:190,empezar:70,cuota:10,mant:5,semanas:2,req:"reservas"},
-    {id:"campanas",grupo:"detalles",nombre:"Cumpleaños y retoques",desc:"Un detalle por su cumpleaños y un aviso cuando toca el retoque.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:"reservas"},
-    {id:"senal",grupo:"detalles",nombre:"Señal en citas largas",desc:"Para micropigmentación o Plasma Pen. Menos citas perdidas.",precio:390,empezar:90,cuota:25,mant:12,semanas:3,req:"reservas"},
-    {id:"app",grupo:"detalles",nombre:"App para tus clientas",desc:"Reservan y ven sus citas y sus bonos.",precio:490,empezar:130,cuota:30,mant:10,semanas:4,req:"reservas"},
+    {id:"resenas",grupo:"detalles",nombre:"Opiniones en Google",desc:"Un mensaje tras cada cita y una placa en el mostrador.",precio:350,empezar:110,cuota:20,mant:12,semanas:2,req:["reservas"]},
+    {id:"espera",grupo:"detalles",nombre:"Lista de espera",desc:"Si alguien cancela, se avisa a quien quería esa hora.",precio:190,empezar:70,cuota:10,mant:5,semanas:2,req:["reservas"]},
+    {id:"campanas",grupo:"detalles",nombre:"Cumpleaños y retoques",desc:"Un detalle por su cumpleaños y un aviso cuando toca el retoque.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:["reservas"]},
+    {id:"senal",grupo:"detalles",nombre:"Señal en citas largas",desc:"Para micropigmentación o Plasma Pen. Menos citas perdidas.",precio:390,empezar:90,cuota:25,mant:12,semanas:3,req:["reservas"]},
+    {id:"app",grupo:"detalles",nombre:"App para tus clientas",desc:"Reservan y ven sus citas y sus bonos.",precio:490,empezar:130,cuota:30,mant:10,semanas:4,req:["reservas"]},
     {id:"tienda",grupo:"detalles",nombre:"Venta de cremas",desc:"En el centro y en la web, sabiendo lo que queda.",precio:590,empezar:110,cuota:40,mant:15,semanas:6},
-    {id:"telefono",grupo:"detalles",nombre:"Alguien que coge el teléfono",desc:"Atiende y reserva mientras estáis con una clienta.",precio:590,empezar:110,cuota:40,mant:49,semanas:4,req:"reservas"},
-    {id:"recuperar",grupo:"detalles",nombre:"WhatsApp que resuelve dudas",desc:"Explica los tratamientos y escribe a quien hace tiempo que no viene.",precio:340,empezar:100,cuota:20,mant:18,semanas:3,req:"whatsapp"},
-    {id:"informes",grupo:"detalles",nombre:"Cómo va el centro",desc:"Facturación, tratamientos que funcionan y de dónde vienen tus clientas.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:"reservas"},
+    {id:"telefono",grupo:"detalles",nombre:"Alguien que coge el teléfono",desc:"Atiende y reserva mientras estáis con una clienta.",precio:590,empezar:110,cuota:40,mant:49,semanas:4,req:["reservas"]},
+    {id:"recuperar",grupo:"detalles",nombre:"WhatsApp que resuelve dudas",desc:"Explica los tratamientos y escribe a quien hace tiempo que no viene.",precio:340,empezar:100,cuota:20,mant:18,semanas:3,req:["whatsapp"]},
+    {id:"informes",grupo:"detalles",nombre:"Cómo va el centro",desc:"Facturación, tratamientos que funcionan y de dónde vienen tus clientas.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:["reservas"]},
     {id:"google",grupo:"detalles",nombre:"Tu ficha de Google",desc:"Fotos, publicaciones y respuestas a opiniones cada mes.",precio:0,empezar:0,cuota:0,mant:49,semanas:0}
   ];
   var POR_ID={}; OPCIONES.forEach(function(o){POR_ID[o.id]=o});
   var elegidas={};
   try{var g=JSON.parse(localStorage.getItem("amg-propuesta")||"{}");Object.keys(g).forEach(function(k){if(POR_ID[k])elegidas[k]=!!g[k]})}catch(e){}
+  function y(l){return l.length>1?l.slice(0,-1).join(", ")+" y "+l[l.length-1]:l.join("")}
+  function faltan(o){return base!=="nueva"?["la web nueva"]:(o.req||[]).filter(function(r){return !elegidas[r]}).map(function(r){return POR_ID[r].corto})}
+  // lo guardado de otra visita puede no cumplir las reglas de ahora
+  (function limpiar(){var otra=true;while(otra){otra=false;OPCIONES.forEach(function(o){if(elegidas[o.id]&&faltan(o).length){elegidas[o.id]=false;otra=true}})}})();
 
   function opcionHTML(o){
-    var req=o.req?'<small>Necesita '+POR_ID[o.req].corto+'</small>':"";
-    return '<button type="button" class="fila" role="switch" aria-checked="false" data-id="'+o.id+'" id="op-'+o.id+'"><div><b>'+o.nombre+'</b><span class="desc">'+o.desc+'</span>'+req+'</div><span class="interruptor" aria-hidden="true"></span></button>';
+    return '<button type="button" class="fila" role="switch" aria-checked="false" aria-describedby="nota-'+o.id+'" data-id="'+o.id+'" id="op-'+o.id+'"><div><b>'+o.nombre+'</b><span class="desc">'+o.desc+'</span><small id="nota-'+o.id+'" hidden></small></div><span class="interruptor" aria-hidden="true"></span></button>';
   }
   $("op-base").innerHTML=Object.keys(BASES).map(function(k){var b=BASES[k];
     return '<label class="fila"><input class="oculto" type="radio" name="base" value="'+k+'"><div><b>'+b.nombre+'</b><span class="desc">'+b.desc+'</span>'+(b.nota?'<small>'+b.nota+'</small>':'')+'</div><span class="punto" aria-hidden="true"></span></label>';
   }).join("");
   $("op-base").addEventListener("change",function(e){elegirBase(e.target.value)});
-  function elegirBase(k){base=k;try{localStorage.setItem("amg-propuesta-base",k)}catch(e){}pintar()}
+  function elegirBase(k){
+    var habia=OPCIONES.some(function(o){return elegidas[o.id]});
+    base=k; if(k!=="nueva") elegidas={};
+    avisar(k!=="nueva"&&habia?["El retoque va solo: hemos quitado lo demás."]:[]);
+    try{localStorage.setItem("amg-propuesta-base",k)}catch(e){}
+    pintar();
+  }
   $("op-grandes").insertAdjacentHTML("beforeend",OPCIONES.filter(function(o){return o.grupo==="grandes"}).map(opcionHTML).join(""));
   $("op-detalles").innerHTML=OPCIONES.filter(function(o){return o.grupo==="detalles"}).map(opcionHTML).join("");
 
@@ -433,29 +463,38 @@ label.fila{position:relative}
     $("s-lista").innerHTML=lista.map(function(o){return "<li>"+o.nombre+"</li>"}).join("");
     $("s-plazo").innerHTML=B.listo+(lista.length>1?", y todo en unas <b>"+t.semanas+" semanas</b>.":base==="nueva"?". Si firmas a primeros de noviembre, antes de Navidad.":".");
     $("s-total").textContent="Puesta en marcha: "+eur(t.precio)+", en la entrada y 12 cuotas sin intereses. Después solo pagas el mantenimiento.";
-    OPCIONES.forEach(function(o){$("op-"+o.id).setAttribute("aria-checked",!!elegidas[o.id])});
+    var soloRetoque=base!=="nueva";
+    $("solo-retoque").hidden=!soloRetoque;
+    OPCIONES.forEach(function(o){
+      var f=faltan(o), fila=$("op-"+o.id), nota=$("nota-"+o.id);
+      fila.setAttribute("aria-checked",!!elegidas[o.id]);
+      if(f.length) fila.setAttribute("aria-disabled","true"); else fila.removeAttribute("aria-disabled");
+      nota.textContent=soloRetoque?"":f.length?"Primero elige "+y(f):o.req?"Necesita "+y(o.req.map(function(r){return POR_ID[r].corto})):"";
+      nota.hidden=!nota.textContent; nota.classList.toggle("falta",f.length>0);
+    });
+    $("reiniciar").disabled=lista.length===1;
     document.querySelectorAll("#op-base input").forEach(function(i){i.checked=i.value===base});
     pintarCatalogo();
     try{localStorage.setItem("amg-propuesta",JSON.stringify(elegidas))}catch(e){}
   }
+  function avisar(l){$("aviso").textContent=l.join(" ");$("aviso").hidden=!l.length}
+  // al quitar una pieza se quitan también las que dependen de ella
+  function quitar(id,avisos){
+    elegidas[id]=false;
+    OPCIONES.forEach(function(o){if(elegidas[o.id]&&(o.req||[]).indexOf(id)>=0){avisos.push("Hemos quitado «"+o.nombre+"».");quitar(o.id,avisos)}});
+  }
   function cambiar(id,valor){
     var avisos=[];
-    elegidas[id]=valor;
-    if(valor){
-      var r=POR_ID[id].req;
-      while(r){if(!elegidas[r]){elegidas[r]=true;avisos.push("Hemos añadido "+POR_ID[r].corto+".")}r=POR_ID[r].req}
-    }else{
-      OPCIONES.forEach(function(o){var r=o.req;while(r){if(r===id&&elegidas[o.id]){elegidas[o.id]=false;avisos.push("Hemos quitado «"+o.nombre+"».")}r=POR_ID[r].req}});
-    }
-    $("aviso").textContent=avisos.join(" "); $("aviso").hidden=!avisos.length;
-    pintar();
+    if(valor){if(faltan(POR_ID[id]).length)return;elegidas[id]=true}
+    else quitar(id,avisos);
+    avisar(avisos); pintar();
   }
   document.addEventListener("click",function(e){
     var b=e.target.closest(".fila[data-id]"); if(b){cambiar(b.dataset.id,b.getAttribute("aria-checked")!=="true");return}
-    var a=e.target.closest(".anadir[data-id]"); if(a){cambiar(a.dataset.id,true);ir("propuesta");return}
-    var eb=e.target.closest(".anadir[data-base]"); if(eb){elegirBase(eb.dataset.base);ir("propuesta");return}
+    var a=e.target.closest(".mas[data-id]"); if(a){cambiar(a.dataset.id,true);ir("propuesta");return}
+    var eb=e.target.closest(".mas[data-base]"); if(eb){elegirBase(eb.dataset.base);ir("propuesta");return}
   });
-  $("reiniciar").addEventListener("click",function(){elegidas={};$("aviso").hidden=true;pintar()});
+  $("reiniciar").addEventListener("click",function(){elegidas={};avisar([]);pintar()});
   /* ---------- Resumen en PDF: el albarán con lo elegido; el navegador lo imprime o lo guarda como PDF ---------- */
   function guion(n){return n?eur(n):"—"}
   function pintarAlbaran(){
@@ -482,10 +521,16 @@ label.fila{position:relative}
       {n:"Tu ficha de Google al día",d:"Para salir arriba cuando buscan en Castellón.",en:"google"},
       {n:"Opiniones en Google",d:"Se piden solas después de cada cita.",en:"resenas"}
     ]},
-    {grupo:"Reservas y agenda",items:[
-      {n:"Reservas a cualquier hora",d:"Desde tu web, también de madrugada.",en:"reservas"},
+    {grupo:"El día a día",items:[
+      {n:"Agenda del equipo",d:"Cada una ve sus citas en el móvil. Tú, todo el centro.",en:"interna"},
+      {n:"Ficha de cada clienta",d:"Historial, notas y alergias en cada cita.",en:"crm"},
+      {n:"Cobro y cierre de caja",d:"Cuadrado al cerrar, sin libreta.",en:"erp"},
+      {n:"Cómo va el centro",d:"Facturación y tratamientos que funcionan.",en:"informes"},
+      {n:"Facturas y gestoría",d:"Sin pasar nada a mano. Lo vemos antes con tu gestoría.",en:null}
+    ]},
+    {grupo:"Reservas",items:[
+      {n:"Reservas con agente",d:"Desde tu web, también de madrugada.",en:"reservas"},
       {n:"Confirmación y recordatorio",d:"Por WhatsApp, el día antes. Menos clientas que no vienen.",en:"reservas"},
-      {n:"La agenda del equipo en el móvil",d:"Cada una ve sus citas. Tú ves todo el centro.",en:"reservas"},
       {n:"Lista de espera",d:"Si alguien cancela, se avisa a la siguiente.",en:"espera"},
       {n:"Señal en citas largas",d:"Para micropigmentación o Plasma Pen.",en:"senal"},
       {n:"App para tus clientas",d:"Reservan y ven sus citas y sus bonos.",en:"app"}
@@ -500,29 +545,21 @@ label.fila{position:relative}
       {n:"Cumpleaños y retoques",d:"Un detalle por su cumpleaños y un aviso cuando toca el retoque.",en:"campanas"},
       {n:"Recuperar clientas",d:"Un mensaje a quien hace meses que no viene.",en:"recuperar"},
       {n:"Venta de cremas",d:"En el centro y en la web, sabiendo lo que queda.",en:"tienda"}
-    ]},
-    {grupo:"El día a día",items:[
-      {n:"Ficha de cada clienta",d:"Historial, notas y alergias en cada cita.",en:"fichas"},
-      {n:"Cobro y cierre de caja",d:"Cuadrado al cerrar, sin libreta.",en:"fichas"},
-      {n:"Cómo va el centro",d:"Facturación y tratamientos que funcionan.",en:"informes"},
-      {n:"Facturas y gestoría",d:"Sin pasar nada a mano. Lo vemos antes con tu gestoría.",en:null}
     ]}
   ];
-  var filtro="";
-  $("filtros").innerHTML='<button type="button" class="chip" data-f="" aria-pressed="true">Todo</button>'+CATALOGO.map(function(g){return '<button type="button" class="chip" data-f="'+g.grupo+'" aria-pressed="false">'+g.grupo+'</button>'}).join("");
-  $("filtros").addEventListener("click",function(e){var c=e.target.closest(".chip");if(!c)return;filtro=c.dataset.f;pintarCatalogo()});
+  var MAS='<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v11M1.5 7h11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  var HECHO='<span class="hecho" role="img" aria-label="En tu propuesta"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5 5.6 10.5 11.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
   function pintarCatalogo(){
-    $("catalogo-lista").innerHTML=CATALOGO.filter(function(g){return !filtro||g.grupo===filtro}).map(function(g){
-      return '<div class="cat-grupo"><h2>'+g.grupo+'</h2><div class="lista">'+g.items.map(function(it){
-        var pie;
-        if(it.en&&it.en.indexOf("base:")===0) pie=base===it.en.slice(5)?'<span class="estado estado--si">En tu propuesta</span>':'<button type="button" class="anadir" data-base="'+it.en.slice(5)+'" aria-label="Elegir '+it.n+'">Elegir</button>';
-        else if(!it.en) pie='<span class="estado">Con tu gestoría</span>';
-        else if(elegidas[it.en]) pie='<span class="estado estado--si">En tu propuesta</span>';
-        else pie='<button type="button" class="anadir" data-id="'+it.en+'" aria-label="Añadir '+it.n+' a tu propuesta">Añadir</button>';
-        return '<div class="fila"><div><b>'+it.n+'</b><span class="desc">'+it.d+'</span></div>'+pie+'</div>';
-      }).join("")+'</div></div>';
+    $("catalogo-lista").innerHTML=CATALOGO.map(function(g){
+      return '<div class="cat-grupo"><h2>'+g.grupo+'</h2>'+g.items.map(function(it){
+        var esBase=it.en&&it.en.indexOf("base:")===0, o=!esBase&&it.en&&POR_ID[it.en], f=o?faltan(o):[], texto="<span>"+it.d+"</span>", accion="";
+        if(esBase) accion=base===it.en.slice(5)?HECHO:'<button type="button" class="mas" data-base="'+it.en.slice(5)+'" aria-label="Elegir '+it.n+'">'+MAS+'</button>';
+        else if(o&&elegidas[it.en]) accion=HECHO;
+        else if(o&&f.length) texto='<span class="falta">'+(base!=="nueva"?"Solo con la web nueva":"Primero: "+y(f))+'</span>';
+        else if(o) accion='<button type="button" class="mas" data-id="'+it.en+'" aria-label="Añadir '+it.n+' a tu propuesta">'+MAS+'</button>';
+        return '<div class="pieza"><div><b>'+it.n+'</b>'+texto+'</div>'+accion+'</div>';
+      }).join("")+'</div>';
     }).join("");
-    document.querySelectorAll("#filtros .chip").forEach(function(c){c.setAttribute("aria-pressed",c.dataset.f===filtro)});
   }
 
   pintar();
