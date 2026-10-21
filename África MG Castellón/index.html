@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Propuesta África MG</title>
+<link rel="icon" href="assets/img/novora.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/novora-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Hanken+Grotesk:wght@400;500;600&display=swap">
@@ -49,10 +51,11 @@ button{font:inherit;color:inherit}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--hoja)}
 .cabecera{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--hoja)}
 .cabecera .ancho{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:64px}
-/* logo de NOVORA: un círculo de tinta con una «nova» dorada que lo recorta, y el nombre */
+/* logo de NOVORA: su N, simétrica y en los tonos de África (marrón noche y dorado claro), y el nombre */
 .logo{display:inline-flex;align-items:center;gap:.6rem;color:var(--tinta);white-space:nowrap}
-.logo svg{width:26px;height:26px;flex:none}
-.logo__nova{fill:var(--oro);stroke:var(--hoja);stroke-width:2.5}
+.logo svg{width:30px;height:30px;flex:none}
+.logo__fondo{fill:#1F1712}
+.logo__n{fill:#C9A66E}
 .logo span{font-size:var(--t0);font-weight:600;letter-spacing:.16em;line-height:1}
 .pestanas{display:flex;gap:4px;background:var(--papel);border-radius:999px;padding:4px}
 .pestanas a{text-decoration:none;font-size:var(--t0);font-weight:500;line-height:1;padding:.7rem 1.1rem;border-radius:999px;color:var(--gris);white-space:nowrap}
@@ -115,6 +118,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .prop{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:clamp(1.5rem,4vw,3rem);align-items:start}
 .grupo + .grupo{margin-top:2.5rem}
 .grupo h2{font-size:var(--t2);margin-bottom:.875rem}
+.grupo__nota{color:var(--gris);margin:-.5rem 0 .875rem}
 .interruptor{width:46px;height:28px;border-radius:999px;background:var(--pista);position:relative;flex:none;transition:background-color .2s ease}
 .interruptor::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--hoja);transition:transform .2s var(--ease-out)}
 .fila[aria-checked="true"] .interruptor{background:var(--oro)}
@@ -141,8 +145,8 @@ label.fila{position:relative}
 .cifra--grande b{font-size:var(--t3);color:var(--oro)}
 .aviso{background:var(--oro-fondo);border-radius:10px;padding:.65rem .85rem}
 .elegido{list-style:none;margin:0;padding:0;display:grid;gap:.3rem}
-.elegido li{display:flex;gap:.6rem}
-.elegido li::before{content:"";flex:none;width:5px;height:5px;border-radius:50%;background:var(--gris);margin-top:.65rem}
+.elegido{gap:.6rem}
+.elegido b{display:block;font-size:var(--t-1);font-weight:600}
 .plazo b{font-weight:600}
 .resumen__acciones{display:grid;gap:.5rem}
 .peque{font-size:var(--t-1);color:var(--gris)}
@@ -191,7 +195,6 @@ label.fila{position:relative}
 .alb-cab{display:flex;justify-content:space-between;align-items:flex-start;gap:12mm;padding-bottom:6mm;border-bottom:1.5pt solid #221C18} /* taste-skill-ignore: cabecera de documento */
 .alb-cab p{color:#6B645F}
 .alb-cab .logo{color:#221C18}
-.alb-cab .logo__nova{fill:#8A6A3E;stroke:#fff}
 .alb-autor{margin-top:2mm}
 .alb-doc{text-align:right}
 .alb-doc h1{font:400 22pt/1.1 var(--f-display);color:#221C18;margin-bottom:1.5mm}
@@ -201,6 +204,8 @@ label.fila{position:relative}
 .alb-tabla th{font-weight:500;font-size:8.5pt;color:#6B645F;text-align:right;padding:0 0 2mm 3mm;border-bottom:.75pt solid #221C18;vertical-align:bottom} /* taste-skill-ignore: tabla */
 .alb-tabla td{padding:2.6mm 0 2.6mm 3mm;border-bottom:.5pt solid #D6D2CC;text-align:right;white-space:nowrap} /* taste-skill-ignore: tabla */
 .alb-tabla th:first-child,.alb-tabla td:first-child{text-align:left;padding-left:0;white-space:normal}
+.alb-tabla .alb-paso th{padding:6mm 0 1.5mm;border-bottom:0;font-size:9pt;font-weight:600;color:#221C18}
+.alb-tabla .alb-paso:first-child th{padding-top:3mm}
 .alb-totales{width:82mm;margin:6mm 0 0 auto;display:grid;grid-template-columns:1fr auto;gap:1.8mm 6mm;align-items:baseline}
 .alb-totales dt{color:#6B645F}
 .alb-totales dd{margin:0;text-align:right}
@@ -228,7 +233,7 @@ label.fila{position:relative}
 <body>
 <header class="cabecera">
   <div class="ancho">
-    <span class="logo" role="img" aria-label="NOVORA"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="11.5" cy="14.5" r="10" fill="currentColor"/><circle class="logo__nova" cx="20" cy="6" r="4.5"/></svg><span aria-hidden="true">NOVORA</span></span>
+    <span class="logo" role="img" aria-label="NOVORA"><svg viewBox="174 90 900 900" aria-hidden="true"><rect class="logo__fondo" x="174" y="90" width="900" height="900" rx="190"/><g class="logo__n"><polygon points="335,293 420,293 913,787 828,787"/><polygon points="505,726 420,726 420,460 505,545"/><polygon points="743,354 828,354 828,620 743,535"/></g></svg><span aria-hidden="true">NOVORA</span></span>
     <nav class="pestanas" aria-label="Partes de la propuesta">
       <a href="#web" data-vista="web">Tu web</a>
       <a href="#propuesta" data-vista="propuesta">Tu propuesta</a>
@@ -259,7 +264,7 @@ label.fila{position:relative}
           </div>
         </div>
       </div>
-      <p class="web__nota">Las fotos y la dirección se cambian por las del local nuevo.</p>
+      <p class="web__nota">Reservar abre el sistema de reservas: va dentro de la web, pero es el paso 2. Las fotos y la dirección se cambian por las del local nuevo.</p>
     </div>
   </section>
 
@@ -273,17 +278,18 @@ label.fila{position:relative}
       <div class="prop">
         <div>
           <div class="grupo">
-            <h2>Tu web</h2>
+            <h2>1. Tu web</h2>
             <div class="lista" id="op-base" role="radiogroup" aria-label="Tu web"></div>
             <p class="aviso" id="solo-retoque" hidden>Con el retoque no se añade nada más. Para sumar piezas, elige la web nueva.</p>
           </div>
           <div class="grupo">
-            <h2>Lo principal</h2>
-            <div class="lista" id="op-grandes"></div>
+            <h2>2. Sistema de reservas</h2>
+            <p class="grupo__nota">Va dentro de la web, pero se monta después, como un paso aparte.</p>
+            <div class="lista" id="op-sistema"></div>
           </div>
           <div class="grupo">
             <h2>Extras</h2>
-            <div class="lista" id="op-detalles"></div>
+            <div class="lista" id="op-extras"></div>
           </div>
           <div class="promesas">
             <div class="promesa"><h3>Pagas cuando funciona</h3><p>Una entrada al empezar. Las cuotas, cuando ya funciona.</p></div>
@@ -345,7 +351,7 @@ label.fila{position:relative}
 <!-- Resumen en PDF: hoja tipo albarán con lo elegido. Solo se ve al imprimir o guardar como PDF. -->
 <section class="albaran" id="albaran" hidden>
   <header class="alb-cab">
-    <div><p class="logo" role="img" aria-label="NOVORA"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="11.5" cy="14.5" r="10" fill="currentColor"/><circle class="logo__nova" cx="20" cy="6" r="4.5"/></svg><span aria-hidden="true">NOVORA</span></p><p class="alb-autor">Félix Ortuño</p></div>
+    <div><p class="logo" role="img" aria-label="NOVORA"><svg viewBox="174 90 900 900" aria-hidden="true"><rect class="logo__fondo" x="174" y="90" width="900" height="900" rx="190"/><g class="logo__n"><polygon points="335,293 420,293 913,787 828,787"/><polygon points="505,726 420,726 420,460 505,545"/><polygon points="743,354 828,354 828,620 743,535"/></g></svg><span aria-hidden="true">NOVORA</span></p><p class="alb-autor">Félix Ortuño</p></div>
     <div class="alb-doc"><h1>Resumen de propuesta</h1><p>Nº NOV-2026-003</p><p id="alb-fecha"></p></div>
   </header>
   <p class="alb-cliente"><span>Cliente</span>África MG, Castellón de la Plana</p>
@@ -407,22 +413,22 @@ label.fila{position:relative}
   var base="nueva";
   try{var gb=localStorage.getItem("amg-propuesta-base");if(BASES[gb])base=gb}catch(e){}
   var OPCIONES=[
-    {id:"interna",corto:"la agenda",grupo:"grandes",nombre:"Agenda del equipo (app interna)",desc:"Cada una ve sus citas en el móvil y tú, todo el centro.",precio:450,empezar:90,cuota:30,mant:15,semanas:4},
-    {id:"crm",corto:"las fichas",grupo:"grandes",nombre:"Fichas de clientas (CRM)",desc:"Historial, notas y alergias de cada clienta.",precio:350,empezar:110,cuota:20,mant:8,semanas:3},
-    {id:"erp",corto:"la caja",grupo:"grandes",nombre:"Caja y facturación (ERP)",desc:"Cobros, cierre de caja y facturas, sin libreta.",precio:300,empezar:60,cuota:20,mant:7,semanas:3},
-    {id:"reservas",corto:"las reservas",grupo:"grandes",nombre:"Reservas con agente",desc:"Un agente en tu web que reserva por ti a cualquier hora, con recordatorio por WhatsApp.",precio:540,empezar:120,cuota:35,mant:20,semanas:5,req:["interna","crm","erp"]},
-    {id:"whatsapp",corto:"el WhatsApp que reserva",grupo:"grandes",nombre:"WhatsApp que reserva",desc:"Contesta al momento y reserva, también de noche.",precio:490,empezar:130,cuota:30,mant:30,semanas:4,req:["reservas"]},
-    {id:"bonos",grupo:"detalles",nombre:"Bonos regalo en la web",desc:"Se compran online y llevas la cuenta de lo que queda.",precio:290,empezar:50,cuota:20,mant:10,semanas:2},
-    {id:"resenas",grupo:"detalles",nombre:"Opiniones en Google",desc:"Un mensaje tras cada cita y una placa en el mostrador.",precio:350,empezar:110,cuota:20,mant:12,semanas:2,req:["reservas"]},
-    {id:"espera",grupo:"detalles",nombre:"Lista de espera",desc:"Si alguien cancela, se avisa a quien quería esa hora.",precio:190,empezar:70,cuota:10,mant:5,semanas:2,req:["reservas"]},
-    {id:"campanas",grupo:"detalles",nombre:"Cumpleaños y retoques",desc:"Un detalle por su cumpleaños y un aviso cuando toca el retoque.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:["reservas"]},
-    {id:"senal",grupo:"detalles",nombre:"Señal en citas largas",desc:"Para micropigmentación o Plasma Pen. Menos citas perdidas.",precio:390,empezar:90,cuota:25,mant:12,semanas:3,req:["reservas"]},
-    {id:"app",grupo:"detalles",nombre:"App para tus clientas",desc:"Reservan y ven sus citas y sus bonos.",precio:490,empezar:130,cuota:30,mant:10,semanas:4,req:["reservas"]},
-    {id:"tienda",grupo:"detalles",nombre:"Venta de cremas",desc:"En el centro y en la web, sabiendo lo que queda.",precio:590,empezar:110,cuota:40,mant:15,semanas:6},
-    {id:"telefono",grupo:"detalles",nombre:"Alguien que coge el teléfono",desc:"Atiende y reserva mientras estáis con una clienta.",precio:590,empezar:110,cuota:40,mant:49,semanas:4,req:["reservas"]},
-    {id:"recuperar",grupo:"detalles",nombre:"WhatsApp que resuelve dudas",desc:"Explica los tratamientos y escribe a quien hace tiempo que no viene.",precio:340,empezar:100,cuota:20,mant:18,semanas:3,req:["whatsapp"]},
-    {id:"informes",grupo:"detalles",nombre:"Cómo va el centro",desc:"Facturación, tratamientos que funcionan y de dónde vienen tus clientas.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:["reservas"]},
-    {id:"google",grupo:"detalles",nombre:"Tu ficha de Google",desc:"Fotos, publicaciones y respuestas a opiniones cada mes.",precio:0,empezar:0,cuota:0,mant:49,semanas:0}
+    {id:"interna",corto:"la agenda",grupo:"sistema",nombre:"Agenda del equipo (app interna)",desc:"Cada una ve sus citas en el móvil y tú, todo el centro.",precio:450,empezar:90,cuota:30,mant:15,semanas:4},
+    {id:"crm",corto:"las fichas",grupo:"sistema",nombre:"Fichas de clientas (CRM)",desc:"Historial, notas y alergias de cada clienta.",precio:350,empezar:110,cuota:20,mant:8,semanas:3},
+    {id:"erp",corto:"la caja",grupo:"sistema",nombre:"Caja y facturación (ERP)",desc:"Cobros, cierre de caja y facturas, sin libreta.",precio:300,empezar:60,cuota:20,mant:7,semanas:3},
+    {id:"reservas",corto:"las reservas",grupo:"sistema",nombre:"Reservas con agente",desc:"Un agente en tu web que reserva por ti a cualquier hora, con recordatorio por WhatsApp.",precio:540,empezar:120,cuota:35,mant:20,semanas:5,req:["interna","crm","erp"]},
+    {id:"whatsapp",corto:"el WhatsApp que reserva",grupo:"extras",nombre:"WhatsApp que reserva",desc:"Contesta al momento y reserva, también de noche.",precio:490,empezar:130,cuota:30,mant:30,semanas:4,req:["reservas"]},
+    {id:"bonos",grupo:"extras",nombre:"Bonos regalo en la web",desc:"Se compran online y llevas la cuenta de lo que queda.",precio:290,empezar:50,cuota:20,mant:10,semanas:2},
+    {id:"resenas",grupo:"extras",nombre:"Opiniones en Google",desc:"Un mensaje tras cada cita y una placa en el mostrador.",precio:350,empezar:110,cuota:20,mant:12,semanas:2,req:["reservas"]},
+    {id:"espera",grupo:"extras",nombre:"Lista de espera",desc:"Si alguien cancela, se avisa a quien quería esa hora.",precio:190,empezar:70,cuota:10,mant:5,semanas:2,req:["reservas"]},
+    {id:"campanas",grupo:"extras",nombre:"Cumpleaños y retoques",desc:"Un detalle por su cumpleaños y un aviso cuando toca el retoque.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:["reservas"]},
+    {id:"senal",grupo:"extras",nombre:"Señal en citas largas",desc:"Para micropigmentación o Plasma Pen. Menos citas perdidas.",precio:390,empezar:90,cuota:25,mant:12,semanas:3,req:["reservas"]},
+    {id:"app",grupo:"extras",nombre:"App para tus clientas",desc:"Reservan y ven sus citas y sus bonos.",precio:490,empezar:130,cuota:30,mant:10,semanas:4,req:["reservas"]},
+    {id:"tienda",grupo:"extras",nombre:"Venta de cremas",desc:"En el centro y en la web, sabiendo lo que queda.",precio:590,empezar:110,cuota:40,mant:15,semanas:6},
+    {id:"telefono",grupo:"extras",nombre:"Alguien que coge el teléfono",desc:"Atiende y reserva mientras estáis con una clienta.",precio:590,empezar:110,cuota:40,mant:49,semanas:4,req:["reservas"]},
+    {id:"recuperar",grupo:"extras",nombre:"WhatsApp que resuelve dudas",desc:"Explica los tratamientos y escribe a quien hace tiempo que no viene.",precio:340,empezar:100,cuota:20,mant:18,semanas:3,req:["whatsapp"]},
+    {id:"informes",grupo:"extras",nombre:"Cómo va el centro",desc:"Facturación, tratamientos que funcionan y de dónde vienen tus clientas.",precio:190,empezar:70,cuota:10,mant:10,semanas:2,req:["reservas"]},
+    {id:"google",grupo:"extras",nombre:"Tu ficha de Google",desc:"Fotos, publicaciones y respuestas a opiniones cada mes.",precio:0,empezar:0,cuota:0,mant:49,semanas:0}
   ];
   var POR_ID={}; OPCIONES.forEach(function(o){POR_ID[o.id]=o});
   var elegidas={};
@@ -446,22 +452,25 @@ label.fila{position:relative}
     try{localStorage.setItem("amg-propuesta-base",k)}catch(e){}
     pintar();
   }
-  $("op-grandes").insertAdjacentHTML("beforeend",OPCIONES.filter(function(o){return o.grupo==="grandes"}).map(opcionHTML).join(""));
-  $("op-detalles").innerHTML=OPCIONES.filter(function(o){return o.grupo==="detalles"}).map(opcionHTML).join("");
+  $("op-sistema").innerHTML=OPCIONES.filter(function(o){return o.grupo==="sistema"}).map(opcionHTML).join("");
+  $("op-extras").innerHTML=OPCIONES.filter(function(o){return o.grupo==="extras"}).map(opcionHTML).join("");
 
   var ultimo;
   function pintar(){
     var B=BASES[base], lista=[B].concat(OPCIONES.filter(function(o){return elegidas[o.id]}));
     var t={precio:0,empezar:0,mes:0,despues:0,semanas:0};
     lista.forEach(function(o){t.precio+=o.precio;t.empezar+=o.empezar;t.mes+=o.cuota+o.mant;t.despues+=o.mant;t.semanas+=o.semanas});
-    ultimo={lista:lista,t:t};
+    var de=function(gr){return OPCIONES.filter(function(o){return o.grupo===gr&&elegidas[o.id]})};
+    var pasos=[["1. Tu web",[B]],["2. Sistema de reservas",de("sistema")],["Extras",de("extras")]].filter(function(p){return p[1].length});
+    var semanas=function(gr){return de(gr).reduce(function(n,o){return n+o.semanas},0)}, sS=semanas("sistema"), sE=semanas("extras");
+    ultimo={lista:lista,t:t,pasos:pasos};
     $("s-empezar").textContent=eur(t.empezar);
     $("s-mes").textContent=eur(t.mes);
     $("s-despues").textContent=eur(t.despues);
     $("m-empezar").textContent=eur(t.empezar);
     $("m-mes").textContent=eur(t.mes);
-    $("s-lista").innerHTML=lista.map(function(o){return "<li>"+o.nombre+"</li>"}).join("");
-    $("s-plazo").innerHTML=B.listo+(lista.length>1?", y todo en unas <b>"+t.semanas+" semanas</b>.":base==="nueva"?". Si firmas a primeros de noviembre, antes de Navidad.":".");
+    $("s-lista").innerHTML=pasos.map(function(p){return "<li><b>"+p[0]+"</b>"+p[1].map(function(o){return o.nombre}).join(", ")+"</li>"}).join("");
+    $("s-plazo").innerHTML=B.listo+"."+(sS?" Después, el sistema de reservas en unas <b>"+sS+" semanas</b> más.":"")+(sE?" Los extras, en unas <b>"+sE+" semanas</b> más.":"")+(!sS&&!sE&&base==="nueva"?" Si firmas a primeros de noviembre, antes de Navidad.":"");
     $("s-total").textContent="Puesta en marcha: "+eur(t.precio)+", en la entrada y 12 cuotas sin intereses. Después solo pagas el mantenimiento.";
     var soloRetoque=base!=="nueva";
     $("solo-retoque").hidden=!soloRetoque;
@@ -500,7 +509,9 @@ label.fila{position:relative}
   function pintarAlbaran(){
     var t=ultimo.t;
     $("alb-fecha").textContent=new Date().toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"});
-    $("alb-lineas").innerHTML=ultimo.lista.map(function(o){return "<tr><td>"+o.nombre+"</td><td>"+guion(o.empezar)+"</td><td>"+guion(o.cuota)+"</td><td>"+guion(o.mant)+"</td><td>"+guion(o.precio)+"</td></tr>"}).join("");
+    $("alb-lineas").innerHTML=ultimo.pasos.map(function(p){
+      return '<tr class="alb-paso"><th colspan="5" scope="rowgroup">'+p[0]+"</th></tr>"+p[1].map(function(o){return "<tr><td>"+o.nombre+"</td><td>"+guion(o.empezar)+"</td><td>"+guion(o.cuota)+"</td><td>"+guion(o.mant)+"</td><td>"+guion(o.precio)+"</td></tr>"}).join("");
+    }).join("");
     $("alb-totales").innerHTML='<dt>Para empezar</dt><dd class="grande">'+eur(t.empezar)+"</dd><dt>Cada mes, el primer año</dt><dd>"+eur(t.mes)+"</dd><dt>Cada mes, después</dt><dd>"+eur(t.despues)+"</dd><dt>Puesta en marcha</dt><dd>"+eur(t.precio)+"</dd>";
     $("alb-plazo").textContent=$("s-plazo").textContent;
   }
@@ -515,25 +526,25 @@ label.fila{position:relative}
 
   /* ---------- 3 · Catálogo (sin precios) ---------- */
   var CATALOGO=[
-    {grupo:"Que te encuentren",items:[
+    {grupo:"Tu web y Google",items:[
       {n:"Tu web nueva",d:"Tratamientos, precios y fotos, siempre al día.",en:"base:nueva"},
       {n:"Retocar tu web actual",d:"Lo mínimo: ponemos al día la del Kit Digital.",en:"base:retoque"},
       {n:"Tu ficha de Google al día",d:"Para salir arriba cuando buscan en Castellón.",en:"google"},
       {n:"Opiniones en Google",d:"Se piden solas después de cada cita.",en:"resenas"}
     ]},
-    {grupo:"El día a día",items:[
+    {grupo:"Sistema de reservas",items:[
       {n:"Agenda del equipo",d:"Cada una ve sus citas en el móvil. Tú, todo el centro.",en:"interna"},
       {n:"Ficha de cada clienta",d:"Historial, notas y alergias en cada cita.",en:"crm"},
       {n:"Cobro y cierre de caja",d:"Cuadrado al cerrar, sin libreta.",en:"erp"},
-      {n:"Cómo va el centro",d:"Facturación y tratamientos que funcionan.",en:"informes"},
-      {n:"Facturas y gestoría",d:"Sin pasar nada a mano. Lo vemos antes con tu gestoría.",en:null}
-    ]},
-    {grupo:"Reservas",items:[
       {n:"Reservas con agente",d:"Desde tu web, también de madrugada.",en:"reservas"},
       {n:"Confirmación y recordatorio",d:"Por WhatsApp, el día antes. Menos clientas que no vienen.",en:"reservas"},
+      {n:"Facturas y gestoría",d:"Sin pasar nada a mano. Lo vemos antes con tu gestoría.",en:null}
+    ]},
+    {grupo:"Con las reservas",items:[
       {n:"Lista de espera",d:"Si alguien cancela, se avisa a la siguiente.",en:"espera"},
       {n:"Señal en citas largas",d:"Para micropigmentación o Plasma Pen.",en:"senal"},
-      {n:"App para tus clientas",d:"Reservan y ven sus citas y sus bonos.",en:"app"}
+      {n:"App para tus clientas",d:"Reservan y ven sus citas y sus bonos.",en:"app"},
+      {n:"Cómo va el centro",d:"Facturación y tratamientos que funcionan.",en:"informes"}
     ]},
     {grupo:"Atención",items:[
       {n:"WhatsApp que reserva",d:"Contesta al momento y reserva, cambia o cancela.",en:"whatsapp"},
