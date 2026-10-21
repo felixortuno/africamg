@@ -118,7 +118,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .prop{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:clamp(1.5rem,4vw,3rem);align-items:start}
 .grupo + .grupo{margin-top:2.5rem}
 .grupo h2{font-size:var(--t2);margin-bottom:.875rem}
-.grupo__nota{color:var(--gris);margin:-.5rem 0 .875rem}
 .interruptor{width:46px;height:28px;border-radius:999px;background:var(--pista);position:relative;flex:none;transition:background-color .2s ease}
 .interruptor::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--hoja);transition:transform .2s var(--ease-out)}
 .fila[aria-checked="true"] .interruptor{background:var(--oro)}
@@ -264,7 +263,7 @@ label.fila{position:relative}
           </div>
         </div>
       </div>
-      <p class="web__nota">Reservar abre el sistema de reservas: va dentro de la web, pero es el paso 2. Las fotos y la dirección se cambian por las del local nuevo.</p>
+      <p class="web__nota">Reservar abre el sistema de reservas: va dentro de la web, pero se elige aparte, en Importantes. Las fotos y la dirección se cambian por las del local nuevo.</p>
     </div>
   </section>
 
@@ -278,14 +277,13 @@ label.fila{position:relative}
       <div class="prop">
         <div>
           <div class="grupo">
-            <h2>1. Tu web</h2>
+            <h2>Web</h2>
             <div class="lista" id="op-base" role="radiogroup" aria-label="Tu web"></div>
             <p class="aviso" id="solo-retoque" hidden>Con el retoque no se añade nada más. Para sumar piezas, elige la web nueva.</p>
           </div>
           <div class="grupo">
-            <h2>2. Sistema de reservas</h2>
-            <p class="grupo__nota">Va dentro de la web, pero se monta después, como un paso aparte.</p>
-            <div class="lista" id="op-sistema"></div>
+            <h2>Importantes</h2>
+            <div class="lista" id="op-importantes"></div>
           </div>
           <div class="grupo">
             <h2>Extras</h2>
@@ -407,16 +405,16 @@ label.fila{position:relative}
      BASES: se elige una, la web nueva o (lo mínimo) retocar la que tiene del Kit Digital; con el retoque no se elige nada más.
      req: lo que tiene que estar elegido antes; mientras falte algo, la opción queda bloqueada y lo dice. */
   var BASES={
-    nueva:{nombre:"Web nueva",desc:"La de «Tu web»: tu carta, tus fotos y tu equipo, con reserva en Treatwell o por WhatsApp.",precio:690,empezar:150,cuota:45,mant:25,semanas:6,listo:"Web lista en unas <b>6 semanas</b>"},
+    nueva:{nombre:"Web nueva",desc:"La que ves en «Tu web»: tu carta, tus fotos y tu equipo.",precio:690,empezar:150,cuota:45,mant:25,semanas:6,listo:"Web lista en unas <b>6 semanas</b>"},
     retoque:{nombre:"Retoque de tu web actual",desc:"Ponemos al día la web que ya tienes del Kit Digital: textos, precios y fotos.",nota:"La opción más económica, sin extras",precio:290,empezar:50,cuota:20,mant:10,semanas:2,listo:"Tu web, retocada en unas <b>2 semanas</b>"}
   };
   var base="nueva";
   try{var gb=localStorage.getItem("amg-propuesta-base");if(BASES[gb])base=gb}catch(e){}
   var OPCIONES=[
-    {id:"interna",corto:"la agenda",grupo:"sistema",nombre:"Agenda del equipo (app interna)",desc:"Cada una ve sus citas en el móvil y tú, todo el centro.",precio:450,empezar:90,cuota:30,mant:15,semanas:4},
-    {id:"crm",corto:"las fichas",grupo:"sistema",nombre:"Fichas de clientas (CRM)",desc:"Historial, notas y alergias de cada clienta.",precio:350,empezar:110,cuota:20,mant:8,semanas:3},
-    {id:"erp",corto:"la caja",grupo:"sistema",nombre:"Caja y facturación (ERP)",desc:"Cobros, cierre de caja y facturas, sin libreta.",precio:300,empezar:60,cuota:20,mant:7,semanas:3},
-    {id:"reservas",corto:"las reservas",grupo:"sistema",nombre:"Reservas con agente",desc:"Un agente en tu web que reserva por ti a cualquier hora, con recordatorio por WhatsApp.",precio:540,empezar:120,cuota:35,mant:20,semanas:5,req:["interna","crm","erp"]},
+    {id:"reservas",corto:"el sistema de reservas",grupo:"importantes",nombre:"Sistema de reservas en tu web",desc:"Un agente reserva por tus clientas a cualquier hora, con recordatorio por WhatsApp. Se monta después de la web.",precio:540,empezar:120,cuota:35,mant:20,semanas:5,req:["interna","crm","erp"]},
+    {id:"interna",corto:"la agenda",grupo:"importantes",nombre:"Agenda del equipo (app interna)",desc:"Cada una ve sus citas en el móvil y tú, todo el centro.",precio:450,empezar:90,cuota:30,mant:15,semanas:4},
+    {id:"crm",corto:"las fichas",grupo:"importantes",nombre:"Fichas de clientas (CRM)",desc:"Historial, notas y alergias de cada clienta.",precio:350,empezar:110,cuota:20,mant:8,semanas:3},
+    {id:"erp",corto:"la caja",grupo:"importantes",nombre:"Caja y facturación (ERP)",desc:"Cobros, cierre de caja y facturas, sin libreta.",precio:300,empezar:60,cuota:20,mant:7,semanas:3},
     {id:"whatsapp",corto:"el WhatsApp que reserva",grupo:"extras",nombre:"WhatsApp que reserva",desc:"Contesta al momento y reserva, también de noche.",precio:490,empezar:130,cuota:30,mant:30,semanas:4,req:["reservas"]},
     {id:"bonos",grupo:"extras",nombre:"Bonos regalo en la web",desc:"Se compran online y llevas la cuenta de lo que queda.",precio:290,empezar:50,cuota:20,mant:10,semanas:2},
     {id:"resenas",grupo:"extras",nombre:"Opiniones en Google",desc:"Un mensaje tras cada cita y una placa en el mostrador.",precio:350,empezar:110,cuota:20,mant:12,semanas:2,req:["reservas"]},
@@ -452,7 +450,7 @@ label.fila{position:relative}
     try{localStorage.setItem("amg-propuesta-base",k)}catch(e){}
     pintar();
   }
-  $("op-sistema").innerHTML=OPCIONES.filter(function(o){return o.grupo==="sistema"}).map(opcionHTML).join("");
+  $("op-importantes").innerHTML=OPCIONES.filter(function(o){return o.grupo==="importantes"}).map(opcionHTML).join("");
   $("op-extras").innerHTML=OPCIONES.filter(function(o){return o.grupo==="extras"}).map(opcionHTML).join("");
 
   var ultimo;
@@ -461,8 +459,8 @@ label.fila{position:relative}
     var t={precio:0,empezar:0,mes:0,despues:0,semanas:0};
     lista.forEach(function(o){t.precio+=o.precio;t.empezar+=o.empezar;t.mes+=o.cuota+o.mant;t.despues+=o.mant;t.semanas+=o.semanas});
     var de=function(gr){return OPCIONES.filter(function(o){return o.grupo===gr&&elegidas[o.id]})};
-    var pasos=[["1. Tu web",[B]],["2. Sistema de reservas",de("sistema")],["Extras",de("extras")]].filter(function(p){return p[1].length});
-    var semanas=function(gr){return de(gr).reduce(function(n,o){return n+o.semanas},0)}, sS=semanas("sistema"), sE=semanas("extras");
+    var pasos=[["Web",[B]],["Importantes",de("importantes")],["Extras",de("extras")]].filter(function(p){return p[1].length});
+    var semanas=function(gr){return de(gr).reduce(function(n,o){return n+o.semanas},0)}, sS=semanas("importantes"), sE=semanas("extras");
     ultimo={lista:lista,t:t,pasos:pasos};
     $("s-empezar").textContent=eur(t.empezar);
     $("s-mes").textContent=eur(t.mes);
@@ -470,7 +468,7 @@ label.fila{position:relative}
     $("m-empezar").textContent=eur(t.empezar);
     $("m-mes").textContent=eur(t.mes);
     $("s-lista").innerHTML=pasos.map(function(p){return "<li><b>"+p[0]+"</b>"+p[1].map(function(o){return o.nombre}).join(", ")+"</li>"}).join("");
-    $("s-plazo").innerHTML=B.listo+"."+(sS?" Después, el sistema de reservas en unas <b>"+sS+" semanas</b> más.":"")+(sE?" Los extras, en unas <b>"+sE+" semanas</b> más.":"")+(!sS&&!sE&&base==="nueva"?" Si firmas a primeros de noviembre, antes de Navidad.":"");
+    $("s-plazo").innerHTML=B.listo+"."+(sS?" Después, lo importante, en unas <b>"+sS+" semanas</b> más.":"")+(sE?" Los extras, en unas <b>"+sE+" semanas</b> más.":"")+(!sS&&!sE&&base==="nueva"?" Si firmas a primeros de noviembre, antes de Navidad.":"");
     $("s-total").textContent="Puesta en marcha: "+eur(t.precio)+", en la entrada y 12 cuotas sin intereses. Después solo pagas el mantenimiento.";
     var soloRetoque=base!=="nueva";
     $("solo-retoque").hidden=!soloRetoque;
@@ -536,7 +534,7 @@ label.fila{position:relative}
       {n:"Agenda del equipo",d:"Cada una ve sus citas en el móvil. Tú, todo el centro.",en:"interna"},
       {n:"Ficha de cada clienta",d:"Historial, notas y alergias en cada cita.",en:"crm"},
       {n:"Cobro y cierre de caja",d:"Cuadrado al cerrar, sin libreta.",en:"erp"},
-      {n:"Reservas con agente",d:"Desde tu web, también de madrugada.",en:"reservas"},
+      {n:"Sistema de reservas en tu web",d:"Un agente reserva por tus clientas, también de madrugada.",en:"reservas"},
       {n:"Confirmación y recordatorio",d:"Por WhatsApp, el día antes. Menos clientas que no vienen.",en:"reservas"},
       {n:"Facturas y gestoría",d:"Sin pasar nada a mano. Lo vemos antes con tu gestoría.",en:null}
     ]},

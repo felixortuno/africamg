@@ -29,7 +29,7 @@ Todo se sirve con `X-Robots-Tag: noindex`, así que Google no indexa la propuest
 ## Dónde se cambia cada cosa (`index.html`)
 
 - **Precios del configurador**: en el script, `BASES` (se elige una: `nueva`, la web nueva, o `retoque`, lo mínimo, retocar la web actual del Kit Digital) y `OPCIONES`. Cada pieza tiene `precio` (puesta en marcha), `empezar` (entrada), `cuota` (12 cuotas), `mant` (mantenimiento mensual) y `semanas`. Regla: `empezar + 12 × cuota = precio`.
-- **Dependencias**: `req` en cada opción es la lista de lo que tiene que estar elegido antes. Mientras falte algo, la opción queda bloqueada y dice qué falta; al quitar una pieza se quitan las que dependen de ella. Las reservas con agente necesitan la agenda (app interna), las fichas (CRM) y la caja (ERP); el WhatsApp y casi todos los extras necesitan las reservas. Con el retoque de la web actual no se puede elegir nada más.
+- **Dependencias**: `req` en cada opción es la lista de lo que tiene que estar elegido antes. Mientras falte algo, la opción queda bloqueada y dice qué falta; al quitar una pieza se quitan las que dependen de ella. La propuesta tiene tres apartados: Web (nueva o retoque), Importantes y Extras. En Importantes, el sistema de reservas en tu web necesita la agenda (app interna), las fichas (CRM) y la caja (ERP); el WhatsApp y casi todos los extras necesitan el sistema de reservas. Con el retoque de la web actual no se puede elegir nada más.
 - **Catálogo (sin precios)**: `CATALOGO`. El campo `en` enlaza cada tarjeta con su opción del configurador.
 - **Colores y tipografía**: variables del bloque `:root` al principio del `<style>`.
 - **Textos de cabecera, validez y número de propuesta**: directamente en el HTML.
@@ -45,4 +45,4 @@ Cada precio está repetido en: la línea de la carta (`data-precio` y el texto),
 - Cambiar la dirección por la del local nuevo cuando se sepa.
 - Validar los precios de las piezas pequeñas del configurador antes de enseñarlo.
 - Confirmar el precio del retoque de la web actual (provisional: 290 € = 50 € + 12 × 20 €, 10 €/mes, 2 semanas).
-- Confirmar el reparto de precios entre agenda (450 €), fichas (350 €), caja (300 €) y reservas con agente (540 €): sale de las antiguas «Reservas online» (990 €) y «Fichas de clientas y caja» (650 €), así que con las cuatro el total es el mismo.
+- Confirmar el reparto de precios entre agenda (450 €), fichas (350 €), caja (300 €) y sistema de reservas en tu web (540 €): sale de las antiguas «Reservas online» (990 €) y «Fichas de clientas y caja» (650 €), así que con las cuatro el total es el mismo.
