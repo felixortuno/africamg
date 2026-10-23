@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Hanken+Grotesk:wght@400;500;600&display=swap">
 <style>
-/* Tres pestañas (Tu web, Tu propuesta, Catálogo), una a la vez.
+/* Cuatro pestañas (Tu web, Tu propuesta, Catálogo, Calculadora), una a la vez.
    Colores y letras de la marca de África: papel frío, tinta cálida, Bodoni para títulos y cifras.
    Las superficies se separan por tono, sin líneas ni sombras. El dorado solo marca lo que eliges y lo que pagas. */
 :root{
@@ -47,7 +47,7 @@ button{font:inherit;color:inherit}
 .num{font-variant-numeric:lining-nums tabular-nums}
 .ancho{max-width:1120px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
 
-/* cabecera blanca sobre el papel, con las tres pestañas */
+/* cabecera blanca sobre el papel, con las pestañas */
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--hoja)}
 .cabecera{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--hoja)}
 .cabecera .ancho{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:64px}
@@ -168,6 +168,27 @@ label.fila{position:relative}
 .cat-demo{border-radius:var(--radio);background:var(--marco);color:#EFE8E1;padding:1.1rem;display:flex;flex-direction:column;align-items:flex-start;gap:.75rem}
 .cat-demo p{flex:1;color:#C9BCAF}
 
+/* 4 · calculadora: horas por precio por hora */
+.calculadora{background:var(--hoja);border-radius:var(--radio);padding:clamp(1rem,3vw,2rem)}
+.calculadora__barra{display:flex;align-items:end;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem}
+.calculadora__barra label{display:grid;gap:.4rem;font-weight:500;max-width:220px}
+.calculadora input[type="number"]{width:100%;min-width:0;min-height:44px;border:0;border-radius:8px;padding:.65rem .75rem;background:var(--papel);color:var(--tinta);font:inherit}
+.calculadora input[aria-invalid="true"]{outline:2px solid var(--oro)}
+.calc-tabla{width:100%;border-collapse:collapse;table-layout:fixed}
+.calc-tabla th{font-weight:500;text-align:left;color:var(--gris);padding:.5rem .5rem .75rem}
+.calc-tabla th:first-child{width:49%}
+.calc-tabla td{padding:1rem .5rem;vertical-align:top;border-top:1px solid var(--suave)}
+.calc-producto{display:flex;align-items:start;gap:.75rem;font-weight:500}
+.calc-producto input{width:20px;height:20px;flex:none;margin:3px 0 0;cursor:pointer}
+.calc-producto b{font-weight:500}
+.calc-producto small,.calc-producto .calc-rango{display:block;margin-top:.3rem;font-size:var(--t-1);color:var(--gris);font-weight:400}
+.calc-tabla tr[data-incluido="false"] .calc-producto b{color:var(--gris)}
+.calc-etiqueta{display:none}
+.calculadora__pie{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:1.5rem}
+.calculadora__total{display:grid;gap:.25rem}
+.calculadora__total output{font:400 var(--t3)/1.1 var(--f-display);color:var(--oro);overflow-wrap:anywhere}
+.calculadora__error,.calculadora__nota{margin-top:1rem;color:var(--gris);font-size:var(--t-1)}
+
 .pie{padding-block:2rem 2.5rem;font-size:var(--t-1);color:var(--gris)}
 .pie .ancho{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 
@@ -188,6 +209,17 @@ label.fila{position:relative}
   .barra-movil b{font:400 var(--t1)/1.2 var(--f-display)}
   .barra-movil a{color:#EFE8E1;font-size:var(--t-1);font-weight:500}
   #propuesta{padding-bottom:7rem}
+  .calc-tabla,.calc-tabla tbody{display:block}
+  .calc-tabla thead{display:none}
+  .calc-tabla tr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;padding:1.25rem 0;border-top:1px solid var(--suave)}
+  .calc-tabla td{display:block;padding:0;border:0}
+  .calc-tabla td:first-child{grid-column:1/-1}
+  .calc-etiqueta{display:block;font-size:var(--t-1);margin-bottom:.35rem}
+  .calculadora__pie .boton{width:100%;white-space:normal}
+}
+@media (max-width:420px){
+  .pestanas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-radius:var(--radio);margin-block:.5rem}
+  .pestanas a{min-height:44px;display:grid;place-items:center}
 }
 /* resumen en PDF: hoja A4 tipo albarán, siempre en claro; es un documento con tabla y firmas, así que lleva sus líneas */
 .albaran{font:400 10pt/1.45 var(--f-texto);color:#221C18;background:#fff}
@@ -237,6 +269,7 @@ label.fila{position:relative}
       <a href="#web" data-vista="web">Tu web</a>
       <a href="#propuesta" data-vista="propuesta">Tu propuesta</a>
       <a href="#catalogo" data-vista="catalogo">Catálogo</a>
+      <a href="#calculadora" data-vista="calculadora">Calculadora</a>
     </nav>
   </div>
 </header>
@@ -307,7 +340,7 @@ label.fila{position:relative}
           <ul class="elegido" id="s-lista" aria-label="Lo que has elegido"></ul>
           <p class="plazo" id="s-plazo"></p>
           <p class="peque" id="s-total"></p>
-          <p class="peque">Con un 25 % de descuento por ser nuestro primer centro, a cambio de enseñar tu web. Sin IVA. Válido hasta el 15 de noviembre de 2026.</p>
+          <p class="peque" id="s-condiciones">Con un 25 % de descuento por ser nuestro primer centro, a cambio de enseñar tu web. Sin IVA. Válido hasta el 15 de noviembre de 2026.</p>
           <div class="resumen__acciones">
             <button class="boton" type="button" id="exportar">Guardar resumen en PDF</button>
             <button class="boton boton--suave" type="button" id="reiniciar">Quitar los extras</button>
@@ -331,6 +364,35 @@ label.fila{position:relative}
           <p>Las reservas, el WhatsApp y la agenda, como si fueras una clienta.</p>
           <a class="boton boton--suave" href="demo-reservas.html" target="_blank" rel="noopener">Probar la demostración</a>
         </div>
+      </div>
+    </div>
+  </section>
+  <!-- 4 · CALCULADORA -->
+  <section class="bloque" id="calculadora" aria-labelledby="t-calculadora" hidden>
+    <div class="ancho">
+      <div class="cab">
+        <h1 id="t-calculadora">Productos y precios</h1>
+        <p>Ajusta las horas, la tarifa o el precio de cada producto.</p>
+      </div>
+      <div class="calculadora num">
+        <div class="calculadora__barra">
+          <label for="calc-tarifa">Tarifa común (€/hora)
+            <input id="calc-tarifa" type="number" min="0" step="any" inputmode="decimal" value="25" aria-describedby="calc-ayuda">
+          </label>
+          <button type="button" class="boton boton--suave" id="calc-todos">Aplicar tarifa a todos</button>
+        </div>
+        <p class="peque" id="calc-ayuda">Horas × €/hora = precio. Si editas el precio, se ajusta la tarifa de esa fila. Marca los productos que quieres incluir.</p>
+        <table class="calc-tabla" aria-label="Productos, horas y precios editables">
+          <thead><tr><th scope="col">Producto</th><th scope="col">Horas</th><th scope="col">€/hora</th><th scope="col">Precio (€)</th></tr></thead>
+          <tbody id="calc-productos"></tbody>
+        </table>
+        <div class="calculadora__pie">
+          <div class="calculadora__total" aria-live="polite"><span id="calc-horas-total"></span><output id="calc-total"></output></div>
+          <button type="button" class="boton" id="calc-aplicar">Usar estos precios en la propuesta</button>
+        </div>
+        <p class="calculadora__error" id="calc-error" role="alert" hidden></p>
+        <p class="calculadora__nota">Las horas son estimaciones del trabajo pendiente. Este cálculo incluye solo horas × tarifa, sin IVA ni gastos externos. Las cuotas de mantenimiento actuales se mantienen.</p>
+        <p class="peque" id="calc-guardado" role="status"></p>
       </div>
     </div>
   </section>
@@ -359,17 +421,18 @@ label.fila{position:relative}
   </table>
   <dl class="alb-totales num" id="alb-totales"></dl>
   <p class="alb-plazo" id="alb-plazo"></p>
-  <p class="alb-cond">La puesta en marcha se paga con la entrada y 12 cuotas sin intereses, que empiezan cuando cada parte ya funciona. Incluye un 25 % de descuento por ser nuestro primer centro, a cambio de enseñar tu web. Precios sin IVA. Válido hasta el 15 de noviembre de 2026.</p>
+  <p class="alb-cond" id="alb-condiciones">La puesta en marcha se paga con la entrada y 12 cuotas sin intereses, que empiezan cuando cada parte ya funciona. Incluye un 25 % de descuento por ser nuestro primer centro, a cambio de enseñar tu web. Precios sin IVA. Válido hasta el 15 de noviembre de 2026.</p>
   <div class="alb-firmas"><p>Conforme, África MG</p><p>Conforme, NOVORA</p></div>
 </section>
 
+<script src="precios.js"></script>
 <script>
 (function(){
   var $=function(id){return document.getElementById(id)};
-  var eur=function(n){return Math.round(n).toLocaleString("es-ES")+" €"};
+  var eur=function(n){return n.toLocaleString("es-ES",{maximumFractionDigits:2})+" €"};
 
   /* ---------- Pestañas ---------- */
-  var VISTAS=["web","propuesta","catalogo"];
+  var VISTAS=["web","propuesta","catalogo","calculadora"];
   function mostrar(v,scroll){
     if(VISTAS.indexOf(v)<0) v="web";
     VISTAS.forEach(function(x){$(x).hidden=x!==v});
@@ -570,6 +633,19 @@ label.fila{position:relative}
       }).join("")+'</div>';
     }).join("");
   }
+
+  /* ---------- 4 · Calculadora ---------- */
+  function calcularHoras(){
+    var horas=$("calc-horas"),tarifa=$("calc-tarifa");
+    var h=horas.valueAsNumber,t=tarifa.valueAsNumber,total=h*t;
+    var vacio=horas.value===""||tarifa.value==="";
+    var valido=!vacio&&Number.isFinite(total)&&h>=0&&t>=0;
+    $("calc-total").textContent=valido?total.toLocaleString("es-ES",{style:"currency",currency:"EUR",minimumFractionDigits:2,maximumFractionDigits:2}):"—";
+    $("calc-error").hidden=valido||vacio;
+  }
+  $("calc-horas").addEventListener("input",calcularHoras);
+  $("calc-tarifa").addEventListener("input",calcularHoras);
+  calcularHoras();
 
   pintar();
   mostrar((location.hash||"#web").slice(1),false);

@@ -1,6 +1,6 @@
 # Propuesta África MG · NOVORA
 
-Página de propuesta para África MG en tres pestañas: **Tu web**, **Tu propuesta** y **Catálogo**. Se publica en Vercel tal cual, sin build.
+Página de propuesta para África MG en cuatro pestañas: **Tu web**, **Tu propuesta**, **Catálogo** y **Calculadora**. Se publica en Vercel tal cual, sin build.
 
 ## Estructura
 
@@ -38,6 +38,12 @@ Todo se sirve con `X-Robots-Tag: noindex`, así que Google no indexa la propuest
 ## Precios de la carta (`demo/index.html`)
 
 Cada precio está repetido en: la línea de la carta (`data-precio` y el texto), `AMG_DATOS.servicios`, el JSON-LD `hasOfferCatalog`, la sección de micropigmentación y, para el retoque y el Plasma Pen, las preguntas frecuentes (HTML y JSON-LD).
+
+## Desglose interno de costes
+
+En [`internal-costs/DESGLOSE.md`](internal-costs/DESGLOSE.md) está el análisis de las 19 ofertas, con rangos de horas, alcance y costes estimados. Son hipótesis de planificación, no costes reales registrados. El informe queda fuera de la publicación de Vercel.
+
+La pestaña **Calculadora** (`#calculadora`) de la propia propuesta tiene solo dos campos: horas y precio por hora. El total se actualiza al escribir y admite decimales.
 
 ## Pendiente
 
